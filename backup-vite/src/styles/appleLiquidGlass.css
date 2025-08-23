@@ -1,0 +1,742 @@
+/* Apple Liquid Glass Design System - Authentic Implementation */
+
+:root {
+  /* Apple's Liquid Glass Core Variables */
+  --glass-blur-light: 10px;
+  --glass-blur-medium: 25px;
+  --glass-blur-heavy: 40px;
+  --glass-blur-ultra: 60px;
+  
+  /* Apple's Material Opacity Scales */
+  --glass-ultra-thin: rgba(255, 255, 255, 0.02);
+  --glass-thin: rgba(255, 255, 255, 0.05);
+  --glass-regular: rgba(255, 255, 255, 0.08);
+  --glass-thick: rgba(255, 255, 255, 0.12);
+  --glass-ultra-thick: rgba(255, 255, 255, 0.18);
+  
+  /* Apple's Border System */
+  --glass-border-subtle: rgba(255, 255, 255, 0.08);
+  --glass-border-regular: rgba(255, 255, 255, 0.12);
+  --glass-border-prominent: rgba(255, 255, 255, 0.18);
+  
+  /* Apple's Shadow System */
+  --glass-shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
+  --glass-shadow-regular: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --glass-shadow-prominent: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+  --glass-shadow-dramatic: 0 25px 50px rgba(0, 0, 0, 0.15), 0 12px 24px rgba(0, 0, 0, 0.12);
+  
+  /* Apple's Animation Curves */
+  --apple-ease-out: cubic-bezier(0.2, 0, 0, 1);
+  --apple-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --apple-ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  
+  /* Apple's Timing Functions */
+  --apple-duration-short: 150ms;
+  --apple-duration-medium: 250ms;
+  --apple-duration-long: 350ms;
+  --apple-duration-slow: 500ms;
+
+  /* Adaptive Performance Variables */
+  --glass-blur-multiplier: 1;
+  --glass-opacity-multiplier: 1;
+  --glass-animation-duration: 250ms;
+  
+  /* Computed Adaptive Values */
+  --glass-adaptive-blur-light: calc(var(--glass-blur-light) * var(--glass-blur-multiplier));
+  --glass-adaptive-blur-medium: calc(var(--glass-blur-medium) * var(--glass-blur-multiplier));
+  --glass-adaptive-blur-heavy: calc(var(--glass-blur-heavy) * var(--glass-blur-multiplier));
+  --glass-adaptive-blur-ultra: calc(var(--glass-blur-ultra) * var(--glass-blur-multiplier));
+}
+
+/* Dark Mode Adjustments */
+.dark {
+  --glass-ultra-thin: rgba(255, 255, 255, 0.01);
+  --glass-thin: rgba(255, 255, 255, 0.03);
+  --glass-regular: rgba(255, 255, 255, 0.05);
+  --glass-thick: rgba(255, 255, 255, 0.08);
+  --glass-ultra-thick: rgba(255, 255, 255, 0.12);
+  
+  --glass-border-subtle: rgba(255, 255, 255, 0.05);
+  --glass-border-regular: rgba(255, 255, 255, 0.08);
+  --glass-border-prominent: rgba(255, 255, 255, 0.12);
+}
+
+/* Base Apple Liquid Glass Material */
+.apple-glass {
+  background: var(--glass-regular);
+  backdrop-filter: blur(var(--glass-blur-medium));
+  -webkit-backdrop-filter: blur(var(--glass-blur-medium));
+  border: 1px solid var(--glass-border-regular);
+  border-radius: 12px;
+  box-shadow: var(--glass-shadow-regular);
+  position: relative;
+  overflow: hidden;
+  
+  /* GPU Acceleration */
+  transform: translateZ(0);
+  will-change: backdrop-filter, background-color, border-color;
+  
+  /* Smooth transitions */
+  transition: 
+    backdrop-filter var(--apple-duration-medium) var(--apple-ease-out),
+    background-color var(--apple-duration-medium) var(--apple-ease-out),
+    border-color var(--apple-duration-medium) var(--apple-ease-out),
+    box-shadow var(--apple-duration-medium) var(--apple-ease-out),
+    transform var(--apple-duration-medium) var(--apple-ease-out);
+}
+
+/* Apple's Material Hierarchy */
+.apple-glass-ultra-thin {
+  background: var(--glass-ultra-thin);
+  backdrop-filter: blur(var(--glass-blur-light));
+  -webkit-backdrop-filter: blur(var(--glass-blur-light));
+  border: 1px solid var(--glass-border-subtle);
+  border-radius: 12px;
+  box-shadow: var(--glass-shadow-subtle);
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  will-change: backdrop-filter, background-color, border-color;
+  transition: 
+    backdrop-filter var(--apple-duration-medium) var(--apple-ease-out),
+    background-color var(--apple-duration-medium) var(--apple-ease-out),
+    border-color var(--apple-duration-medium) var(--apple-ease-out),
+    box-shadow var(--apple-duration-medium) var(--apple-ease-out),
+    transform var(--apple-duration-medium) var(--apple-ease-out);
+}
+
+.apple-glass-thin {
+  background: var(--glass-thin);
+  backdrop-filter: blur(var(--glass-blur-medium));
+  -webkit-backdrop-filter: blur(var(--glass-blur-medium));
+  border: 1px solid var(--glass-border-subtle);
+  border-radius: 12px;
+  box-shadow: var(--glass-shadow-regular);
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  will-change: backdrop-filter, background-color, border-color;
+  transition: 
+    backdrop-filter var(--apple-duration-medium) var(--apple-ease-out),
+    background-color var(--apple-duration-medium) var(--apple-ease-out),
+    border-color var(--apple-duration-medium) var(--apple-ease-out),
+    box-shadow var(--apple-duration-medium) var(--apple-ease-out),
+    transform var(--apple-duration-medium) var(--apple-ease-out);
+}
+
+.apple-glass-regular {
+  background: var(--glass-regular);
+  backdrop-filter: blur(var(--glass-blur-medium));
+  -webkit-backdrop-filter: blur(var(--glass-blur-medium));
+  border: 1px solid var(--glass-border-regular);
+  border-radius: 12px;
+  box-shadow: var(--glass-shadow-regular);
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  will-change: backdrop-filter, background-color, border-color;
+  transition: 
+    backdrop-filter var(--apple-duration-medium) var(--apple-ease-out),
+    background-color var(--apple-duration-medium) var(--apple-ease-out),
+    border-color var(--apple-duration-medium) var(--apple-ease-out),
+    box-shadow var(--apple-duration-medium) var(--apple-ease-out),
+    transform var(--apple-duration-medium) var(--apple-ease-out);
+}
+
+.apple-glass-thick {
+  background: var(--glass-thick);
+  backdrop-filter: blur(var(--glass-blur-heavy));
+  -webkit-backdrop-filter: blur(var(--glass-blur-heavy));
+  border: 1px solid var(--glass-border-prominent);
+  border-radius: 12px;
+  box-shadow: var(--glass-shadow-prominent);
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  will-change: backdrop-filter, background-color, border-color;
+  transition: 
+    backdrop-filter var(--apple-duration-medium) var(--apple-ease-out),
+    background-color var(--apple-duration-medium) var(--apple-ease-out),
+    border-color var(--apple-duration-medium) var(--apple-ease-out),
+    box-shadow var(--apple-duration-medium) var(--apple-ease-out),
+    transform var(--apple-duration-medium) var(--apple-ease-out);
+}
+
+.apple-glass-ultra-thick {
+  background: var(--glass-ultra-thick);
+  backdrop-filter: blur(var(--glass-blur-ultra));
+  -webkit-backdrop-filter: blur(var(--glass-blur-ultra));
+  border: 1px solid var(--glass-border-prominent);
+  border-radius: 12px;
+  box-shadow: var(--glass-shadow-dramatic);
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  will-change: backdrop-filter, background-color, border-color;
+  transition: 
+    backdrop-filter var(--apple-duration-medium) var(--apple-ease-out),
+    background-color var(--apple-duration-medium) var(--apple-ease-out),
+    border-color var(--apple-duration-medium) var(--apple-ease-out),
+    box-shadow var(--apple-duration-medium) var(--apple-ease-out),
+    transform var(--apple-duration-medium) var(--apple-ease-out);
+}
+
+/* Apple's Interactive States */
+.apple-glass-interactive {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.apple-glass-interactive:hover {
+  background: var(--glass-thick);
+  backdrop-filter: blur(var(--glass-blur-heavy));
+  -webkit-backdrop-filter: blur(var(--glass-blur-heavy));
+  border-color: var(--glass-border-prominent);
+  box-shadow: var(--glass-shadow-prominent);
+  transform: translateY(-1px) scale(1.02);
+}
+
+.apple-glass-interactive:active {
+  background: var(--glass-regular);
+  backdrop-filter: blur(var(--glass-blur-medium));
+  -webkit-backdrop-filter: blur(var(--glass-blur-medium));
+  transform: translateY(0) scale(0.98);
+  transition: all var(--apple-duration-short) var(--apple-ease-out);
+}
+
+/* Apple's Focus States */
+.apple-glass-interactive:focus-visible {
+  outline: 2px solid rgba(0, 122, 255, 0.6);
+  outline-offset: 2px;
+}
+
+/* Apple's Specular Highlights */
+.apple-glass::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.8) 50%,
+    transparent 100%
+  );
+  opacity: 0.3;
+}
+
+.apple-glass::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.02) 100%
+  );
+  pointer-events: none;
+}
+
+/* Apple's Button Glass Material */
+.apple-glass-button {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  background: var(--glass-regular);
+  backdrop-filter: blur(var(--glass-blur-medium));
+  -webkit-backdrop-filter: blur(var(--glass-blur-medium));
+  border: 1px solid var(--glass-border-regular);
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-weight: 500;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.95);
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 32px;
+  box-shadow: var(--glass-shadow-regular);
+}
+
+.apple-glass-button:hover {
+  background: var(--glass-thick);
+  backdrop-filter: blur(var(--glass-blur-heavy));
+  -webkit-backdrop-filter: blur(var(--glass-blur-heavy));
+  color: rgba(255, 255, 255, 1);
+  box-shadow: var(--glass-shadow-prominent);
+}
+
+.apple-glass-button:active {
+  background: var(--glass-regular);
+  backdrop-filter: blur(var(--glass-blur-light));
+  -webkit-backdrop-filter: blur(var(--glass-blur-light));
+}
+
+/* Apple's Primary Button */
+.apple-glass-button-primary {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  backdrop-filter: blur(var(--glass-blur-medium));
+  -webkit-backdrop-filter: blur(var(--glass-blur-medium));
+  border: 1px solid rgba(0, 122, 255, 0.5);
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 14px;
+  color: white;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 32px;
+  box-shadow: var(--glass-shadow-regular);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 122, 255, 0.4) 0%,
+    rgba(0, 122, 255, 0.3) 100%
+  );
+}
+
+.apple-glass-button-primary:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 122, 255, 0.6) 0%,
+    rgba(0, 122, 255, 0.5) 100%
+  );
+  border-color: rgba(0, 122, 255, 0.7);
+  box-shadow: 
+    var(--glass-shadow-prominent),
+    0 0 20px rgba(0, 122, 255, 0.3);
+}
+
+/* Apple's Card Glass Material */
+.apple-glass-card {
+  background: var(--glass-regular);
+  backdrop-filter: blur(var(--glass-blur-medium));
+  -webkit-backdrop-filter: blur(var(--glass-blur-medium));
+  border: 1px solid var(--glass-border-regular);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--glass-shadow-prominent);
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  will-change: backdrop-filter, background-color, border-color;
+  transition: 
+    backdrop-filter var(--apple-duration-medium) var(--apple-ease-out),
+    background-color var(--apple-duration-medium) var(--apple-ease-out),
+    border-color var(--apple-duration-medium) var(--apple-ease-out),
+    box-shadow var(--apple-duration-medium) var(--apple-ease-out),
+    transform var(--apple-duration-medium) var(--apple-ease-out);
+}
+
+/* Apple's Navigation Glass */
+.apple-glass-nav {
+  background: var(--glass-thick);
+  backdrop-filter: blur(var(--glass-blur-heavy));
+  -webkit-backdrop-filter: blur(var(--glass-blur-heavy));
+  border: 1px solid var(--glass-border-prominent);
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: var(--glass-shadow-prominent);
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  will-change: backdrop-filter, background-color, border-color;
+  transition: 
+    backdrop-filter var(--apple-duration-medium) var(--apple-ease-out),
+    background-color var(--apple-duration-medium) var(--apple-ease-out),
+    border-color var(--apple-duration-medium) var(--apple-ease-out),
+    box-shadow var(--apple-duration-medium) var(--apple-ease-out),
+    transform var(--apple-duration-medium) var(--apple-ease-out);
+}
+
+.apple-glass-nav-item {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  font-size: 14px;
+  transition: all var(--apple-duration-medium) var(--apple-ease-out);
+}
+
+.apple-glass-nav-item:hover {
+  background: var(--glass-regular);
+  color: rgba(255, 255, 255, 0.95);
+  transform: scale(1.05);
+}
+
+.apple-glass-nav-item.active {
+  background: var(--glass-thick);
+  color: rgba(255, 255, 255, 1);
+  transform: scale(1.02);
+  box-shadow: var(--glass-shadow-regular);
+}
+
+/* Apple's Container Glass */
+.apple-glass-container {
+  background: var(--glass-ultra-thick);
+  backdrop-filter: blur(var(--glass-blur-ultra));
+  -webkit-backdrop-filter: blur(var(--glass-blur-ultra));
+  border: 1px solid var(--glass-border-prominent);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: var(--glass-shadow-dramatic);
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  will-change: backdrop-filter, background-color, border-color;
+  transition: 
+    backdrop-filter var(--apple-duration-medium) var(--apple-ease-out),
+    background-color var(--apple-duration-medium) var(--apple-ease-out),
+    border-color var(--apple-duration-medium) var(--apple-ease-out),
+    box-shadow var(--apple-duration-medium) var(--apple-ease-out),
+    transform var(--apple-duration-medium) var(--apple-ease-out);
+}
+
+/* Apple's Modal Glass */
+.apple-glass-modal {
+  background: var(--glass-ultra-thick);
+  backdrop-filter: blur(var(--glass-blur-ultra));
+  -webkit-backdrop-filter: blur(var(--glass-blur-ultra));
+  border: 1px solid var(--glass-border-prominent);
+  border-radius: 16px;
+  box-shadow: var(--glass-shadow-dramatic);
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  will-change: backdrop-filter, background-color, border-color;
+  transition: 
+    backdrop-filter var(--apple-duration-medium) var(--apple-ease-out),
+    background-color var(--apple-duration-medium) var(--apple-ease-out),
+    border-color var(--apple-duration-medium) var(--apple-ease-out),
+    box-shadow var(--apple-duration-medium) var(--apple-ease-out),
+    transform var(--apple-duration-medium) var(--apple-ease-out);
+}
+
+/* Apple's Dynamic Blur Based on Content */
+.apple-glass-dynamic-light {
+  backdrop-filter: blur(var(--glass-blur-light));
+  -webkit-backdrop-filter: blur(var(--glass-blur-light));
+}
+
+.apple-glass-dynamic-medium {
+  backdrop-filter: blur(var(--glass-blur-medium));
+  -webkit-backdrop-filter: blur(var(--glass-blur-medium));
+}
+
+.apple-glass-dynamic-heavy {
+  backdrop-filter: blur(var(--glass-blur-heavy));
+  -webkit-backdrop-filter: blur(var(--glass-blur-heavy));
+}
+
+.apple-glass-dynamic-ultra {
+  backdrop-filter: blur(var(--glass-blur-ultra));
+  -webkit-backdrop-filter: blur(var(--glass-blur-ultra));
+}
+
+/* Apple's Motion Response */
+@keyframes apple-glass-pulse {
+  0%, 100% {
+    backdrop-filter: blur(var(--glass-blur-medium));
+    -webkit-backdrop-filter: blur(var(--glass-blur-medium));
+  }
+  50% {
+    backdrop-filter: blur(var(--glass-blur-heavy));
+    -webkit-backdrop-filter: blur(var(--glass-blur-heavy));
+  }
+}
+
+.apple-glass-pulse {
+  animation: apple-glass-pulse 2s var(--apple-ease-in-out) infinite;
+}
+
+/* Apple's Real-time Rendering Optimization */
+.apple-glass-optimized {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: backdrop-filter, transform, opacity;
+  contain: layout style paint;
+}
+
+/* Adaptive Quality System */
+.glass-quality-ultra-low .apple-glass,
+.glass-quality-ultra-low .apple-glass-optimized {
+  backdrop-filter: blur(2px) !important;
+  -webkit-backdrop-filter: blur(2px) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  transition-duration: 0ms !important;
+}
+
+.glass-quality-low .apple-glass,
+.glass-quality-low .apple-glass-optimized {
+  backdrop-filter: blur(var(--glass-adaptive-blur-light)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-adaptive-blur-light)) !important;
+  transition-duration: var(--apple-duration-short) !important;
+}
+
+.glass-quality-medium .apple-glass,
+.glass-quality-medium .apple-glass-optimized {
+  backdrop-filter: blur(var(--glass-adaptive-blur-medium));
+  -webkit-backdrop-filter: blur(var(--glass-adaptive-blur-medium));
+  transition-duration: var(--glass-animation-duration);
+}
+
+.glass-quality-high .apple-glass,
+.glass-quality-high .apple-glass-optimized {
+  backdrop-filter: blur(var(--glass-adaptive-blur-heavy));
+  -webkit-backdrop-filter: blur(var(--glass-adaptive-blur-heavy));
+  transition-duration: var(--apple-duration-long);
+}
+
+.glass-quality-ultra-high .apple-glass,
+.glass-quality-ultra-high .apple-glass-optimized {
+  backdrop-filter: blur(var(--glass-adaptive-blur-ultra));
+  -webkit-backdrop-filter: blur(var(--glass-adaptive-blur-ultra));
+  transition-duration: var(--apple-duration-slow);
+}
+
+/* Critical CSS - Above the fold glass optimization */
+.glass-critical {
+  background: var(--glass-regular);
+  backdrop-filter: blur(var(--glass-blur-medium));
+  -webkit-backdrop-filter: blur(var(--glass-blur-medium));
+  border: 1px solid var(--glass-border-regular);
+  border-radius: 12px;
+  transform: translateZ(0);
+  will-change: auto;
+  contain: layout style;
+}
+
+/* Production Build Optimizations */
+@layer glass-production {
+  /* Reduce paint complexity in production */
+  .apple-glass-production {
+    contain: strict;
+    content-visibility: auto;
+    contain-intrinsic-size: 200px 100px;
+  }
+  
+  /* Optimize for 60fps performance */
+  .apple-glass-60fps {
+    animation-duration: 16.67ms;
+    transition-duration: calc(var(--glass-animation-duration) / 2);
+    will-change: transform;
+  }
+  
+  /* Reduce complexity on mobile */
+  @media (max-width: 768px) {
+    .apple-glass {
+      backdrop-filter: blur(calc(var(--glass-blur-medium) * 0.7));
+      -webkit-backdrop-filter: blur(calc(var(--glass-blur-medium) * 0.7));
+      box-shadow: var(--glass-shadow-regular);
+    }
+  }
+  
+  /* Optimize for low-powered devices */
+  @media (max-width: 480px) {
+    .apple-glass {
+      backdrop-filter: blur(var(--glass-blur-light));
+      -webkit-backdrop-filter: blur(var(--glass-blur-light));
+      box-shadow: var(--glass-shadow-subtle);
+      transition-duration: var(--apple-duration-short);
+    }
+    
+    .apple-glass::before,
+    .apple-glass::after {
+      display: none;
+    }
+  }
+}
+
+/* Apple's WCAG-Compliant Accessibility System */
+
+/* High contrast accessible glass materials with 4.5:1 ratio for normal text */
+.accessible-glass {
+  background: rgba(255, 255, 255, 0.9);
+  color: #000000;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(var(--glass-blur-light));
+  -webkit-backdrop-filter: blur(var(--glass-blur-light));
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  box-shadow: var(--glass-shadow-regular);
+  position: relative;
+  overflow: hidden;
+}
+
+/* High contrast glass for large text (3:1 ratio) */
+.accessible-glass-large-text {
+  background: rgba(255, 255, 255, 0.85);
+  color: #333333;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(var(--glass-blur-light));
+  -webkit-backdrop-filter: blur(var(--glass-blur-light));
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+/* Dark mode accessible glass */
+.dark .accessible-glass {
+  background: rgba(0, 0, 0, 0.9);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .accessible-glass-large-text {
+  background: rgba(0, 0, 0, 0.85);
+  color: #e5e5e5;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Enhanced accessible button */
+.accessible-glass-button {
+  background: rgba(255, 255, 255, 0.95);
+  color: #000000;
+  font-weight: 600;
+  text-shadow: none;
+  backdrop-filter: blur(var(--glass-blur-light));
+  -webkit-backdrop-filter: blur(var(--glass-blur-light));
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 12px 16px;
+  min-height: 44px; /* Touch target accessibility */
+  cursor: pointer;
+  transition: all var(--apple-duration-medium) var(--apple-ease-out);
+}
+
+.accessible-glass-button:hover {
+  background: rgba(255, 255, 255, 1);
+  border-color: rgba(0, 0, 0, 0.3);
+  box-shadow: var(--glass-shadow-prominent);
+}
+
+.accessible-glass-button:focus-visible {
+  outline: 3px solid #005fcc;
+  outline-offset: 2px;
+}
+
+.dark .accessible-glass-button {
+  background: rgba(0, 0, 0, 0.95);
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .accessible-glass-button:hover {
+  background: rgba(0, 0, 0, 1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Apple's Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .apple-glass,
+  .apple-glass-interactive,
+  .accessible-glass,
+  .accessible-glass-button {
+    transition: none;
+    animation: none;
+  }
+  
+  .apple-glass-interactive:hover,
+  .accessible-glass-button:hover {
+    transform: none;
+  }
+  
+  .apple-glass-pulse {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .apple-glass,
+  .apple-glass-ultra-thin,
+  .apple-glass-thin,
+  .apple-glass-regular,
+  .apple-glass-thick,
+  .apple-glass-ultra-thick,
+  .accessible-glass,
+  .accessible-glass-large-text,
+  .accessible-glass-button {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  
+  .apple-glass,
+  .apple-glass-ultra-thin,
+  .apple-glass-thin,
+  .apple-glass-regular,
+  .apple-glass-thick,
+  .apple-glass-ultra-thick {
+    background: rgba(0, 0, 0, 0.85);
+    color: #ffffff;
+  }
+  
+  .accessible-glass {
+    background: rgba(255, 255, 255, 0.95);
+    color: #000000;
+  }
+  
+  .accessible-glass-large-text {
+    background: rgba(255, 255, 255, 0.9);
+    color: #333333;
+  }
+  
+  .accessible-glass-button {
+    background: rgba(255, 255, 255, 0.98);
+    color: #000000;
+  }
+  
+  .dark .accessible-glass,
+  .dark .accessible-glass-large-text,
+  .dark .accessible-glass-button {
+    background: rgba(0, 0, 0, 0.95);
+    color: #ffffff;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .apple-glass,
+  .accessible-glass,
+  .accessible-glass-large-text,
+  .accessible-glass-button {
+    background: rgba(255, 255, 255, 1);
+    color: #000000;
+    border: 2px solid #000000;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    text-shadow: none;
+  }
+  
+  .dark .apple-glass,
+  .dark .accessible-glass,
+  .dark .accessible-glass-large-text,
+  .dark .accessible-glass-button {
+    background: rgba(0, 0, 0, 1);
+    color: #ffffff;
+    border: 2px solid #ffffff;
+  }
+}
+
+/* Apple's Safari-specific Optimizations */
+@supports (-webkit-backdrop-filter: blur(1px)) {
+  .apple-glass {
+    -webkit-backdrop-filter: blur(var(--glass-blur-medium));
+  }
+}

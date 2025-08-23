@@ -1,0 +1,322 @@
+/**
+ * Advanced Performance Optimization CSS
+ * GPU acceleration, transform-based animations, and will-change properties
+ */
+
+/* GPU Acceleration Hints */
+.gpu-accelerated {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.gpu-accelerated-auto {
+  will-change: auto;
+}
+
+/* Transform-based animations to avoid layout recalculation */
+.transform-animate {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.transform-animate:hover {
+  transform: translateZ(0) scale(1.05);
+  transition: transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Optimized particle container */
+.particle-container {
+  will-change: contents;
+  contain: layout style paint;
+  transform: translateZ(0);
+}
+
+/* High-performance scroll containers */
+.optimized-scroll {
+  will-change: scroll-position;
+  overflow-scrolling: touch;
+  -webkit-overflow-scrolling: touch;
+  contain: layout style;
+}
+
+/* Animation performance classes */
+.animate-performance-high {
+  will-change: transform, opacity;
+  animation-fill-mode: both;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.animate-performance-medium {
+  will-change: transform;
+  contain: layout;
+}
+
+.animate-performance-low {
+  will-change: auto;
+}
+
+/* Optimized card animations */
+.card-optimized {
+  will-change: transform, box-shadow;
+  transform: translateZ(0);
+  contain: layout style;
+  transition: transform 0.15s cubic-bezier(0.4, 0.0, 0.2, 1),
+              box-shadow 0.15s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.card-optimized:hover {
+  transform: translateZ(0) translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Button optimizations */
+.button-optimized {
+  will-change: transform, background-color;
+  transform: translateZ(0);
+  transition: transform 0.1s cubic-bezier(0.4, 0.0, 0.2, 1),
+              background-color 0.1s ease;
+}
+
+.button-optimized:active {
+  transform: translateZ(0) scale(0.98);
+}
+
+/* Modal and overlay optimizations */
+.modal-optimized {
+  will-change: transform, opacity;
+  contain: layout style;
+  transform: translateZ(0);
+}
+
+.modal-backdrop {
+  will-change: opacity;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* Three.js and WebGL container optimizations */
+.webgl-container {
+  will-change: contents;
+  contain: strict;
+  transform: translateZ(0);
+  isolation: isolate;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .animate-performance-high,
+  .animate-performance-medium,
+  .transform-animate,
+  .card-optimized,
+  .button-optimized {
+    will-change: auto;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Low power mode optimizations */
+[data-low-power="true"] .gpu-accelerated,
+[data-low-power="true"] .animate-performance-high {
+  will-change: auto;
+  transform: none !important;
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Memory pressure optimizations */
+[data-memory-pressure="high"] .particle-container,
+[data-memory-pressure="high"] .webgl-container {
+  display: none !important;
+}
+
+/* Batch animation updates */
+.batch-animate {
+  contain: layout style;
+  will-change: transform;
+}
+
+/* Container query optimizations for responsive animations */
+@container (max-width: 768px) {
+  .animate-performance-high {
+    will-change: transform;
+  }
+  
+  .gpu-accelerated {
+    will-change: transform;
+  }
+}
+
+/* Print optimizations */
+@media print {
+  .gpu-accelerated,
+  .animate-performance-high,
+  .animate-performance-medium,
+  .webgl-container,
+  .particle-container {
+    will-change: auto !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+    opacity: 0 !important;
+  }
+}
+
+/* Focus management for accessibility */
+.focus-optimized:focus {
+  will-change: box-shadow;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+/* Layout containment for complex components */
+.layout-contained {
+  contain: layout;
+}
+
+.style-contained {
+  contain: style;
+}
+
+.paint-contained {
+  contain: paint;
+}
+
+.size-contained {
+  contain: size;
+}
+
+.strict-contained {
+  contain: strict;
+}
+
+/* Performance debugging helpers */
+.debug-paint {
+  outline: 1px solid red !important;
+}
+
+.debug-layout {
+  outline: 1px solid blue !important;
+}
+
+.debug-composite {
+  outline: 1px solid green !important;
+}
+
+/* Optimized typography */
+.text-optimized {
+  text-rendering: optimizeSpeed;
+  font-display: swap;
+}
+
+.text-quality {
+  text-rendering: optimizeLegibility;
+}
+
+/* Image optimizations */
+.image-optimized {
+  will-change: transform;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Lazy loading optimizations */
+.lazy-load {
+  content-visibility: auto;
+  contain-intrinsic-size: 300px;
+}
+
+/* Virtual scrolling optimizations */
+.virtual-scroll-item {
+  contain: layout style;
+  will-change: transform;
+}
+
+/* Canvas optimizations */
+.canvas-optimized {
+  will-change: contents;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* Touch optimizations */
+.touch-optimized {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Cursor optimizations */
+.cursor-optimized {
+  will-change: transform;
+  pointer-events: auto;
+}
+
+/* Animation keyframes with GPU acceleration */
+@keyframes slideInGPU {
+  from {
+    transform: translate3d(-100%, 0, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInGPU {
+  from {
+    transform: translateZ(0);
+    opacity: 0;
+  }
+  to {
+    transform: translateZ(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleInGPU {
+  from {
+    transform: translateZ(0) scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: translateZ(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Utility classes for performance */
+.will-change-transform { will-change: transform; }
+.will-change-opacity { will-change: opacity; }
+.will-change-scroll { will-change: scroll-position; }
+.will-change-contents { will-change: contents; }
+.will-change-auto { will-change: auto; }
+
+.contain-layout { contain: layout; }
+.contain-style { contain: style; }
+.contain-paint { contain: paint; }
+.contain-size { contain: size; }
+.contain-strict { contain: strict; }
+
+.gpu-layer { transform: translateZ(0); }
+.gpu-3d { transform: translate3d(0, 0, 0); }
+
+/* Complex animation optimizations */
+.complex-animation {
+  will-change: transform, opacity, filter;
+  contain: layout style;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Micro-optimizations */
+.micro-optimize {
+  contain: layout style paint;
+  will-change: transform;
+  isolation: isolate;
+}
