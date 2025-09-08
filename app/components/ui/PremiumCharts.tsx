@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useMemo, useState, useEffect } from 'react'
+import { useTheme } from '@/components/providers/ThemeProvider'
 import { 
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   AreaChart, Area, BarChart, Bar, RadialBarChart, RadialBar, PieChart, Pie, Cell
@@ -30,15 +31,15 @@ interface PremiumChartsProps {
   className?: string
 }
 
-// Research-backed productivity colors
+// GenZ productivity colors with your palette
 const PRODUCTIVITY_COLORS = {
-  high: '#0000FF',      // Classic Blue - Maximum focus
-  medium: '#5B7C99',    // Slate Blue - Professional
-  good: '#2E8B57',      // Sea Green - Calming
-  low: '#B6D0E2'        // Powder Blue - Stress reduction
+  high: '#EF6F38',      // Orange - Maximum energy and focus
+  medium: '#F3A340',    // Golden - Professional productivity
+  good: '#F088A3',      // Pink - Calming and motivation
+  low: '#F3ECD2'        // Cream - Stress reduction
 }
 
-const CHART_COLORS = ['#3b82f6', '#8b5cf6', '#06b6d4', '#10b981', '#f59e0b', '#ef4444']
+const CHART_COLORS = ['#EF6F38', '#F3A340', '#F088A3', '#F0BB43', '#F3ECD2', '#121212']
 
 // Generate sample productivity data
 const generateProductivityData = (days: number = 7): ChartDataPoint[] => {
@@ -65,27 +66,39 @@ const generateProductivityData = (days: number = 7): ChartDataPoint[] => {
 }
 
 function ProductivityLineChart({ data, animated = true }: { data: ChartDataPoint[], animated?: boolean }) {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark' || (theme === 'system' && window?.matchMedia?.('(prefers-color-scheme: dark)')?.matches)
+  
+  const axisTextColor = isDark ? '#d1d5db' : '#374151'  // gray-300 : gray-700
+  const axisLineColor = isDark ? '#6b7280' : '#9ca3af'  // gray-500 : gray-400
+  const gridColor = isDark ? 'rgba(75,85,99,0.3)' : 'rgba(156,163,175,0.3)'
+  const tooltipBg = isDark ? 'rgba(31, 41, 55, 0.95)' : 'rgba(255, 255, 255, 0.95)'
+  const tooltipText = isDark ? '#f3f4f6' : '#1a1a1a'
+
   return (
     <ResponsiveContainer width="100%" height={300}>
       <LineChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+        <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
         <XAxis 
           dataKey="name" 
-          tick={{ fill: 'rgba(255,255,255,0.8)', fontSize: 12 }}
-          axisLine={{ stroke: 'rgba(255,255,255,0.2)' }}
+          tick={{ fill: axisTextColor, fontSize: 12, fontWeight: 600 }}
+          axisLine={{ stroke: axisLineColor }}
         />
         <YAxis 
-          tick={{ fill: 'rgba(255,255,255,0.8)', fontSize: 12 }}
-          axisLine={{ stroke: 'rgba(255,255,255,0.2)' }}
+          tick={{ fill: axisTextColor, fontSize: 12, fontWeight: 600 }}
+          axisLine={{ stroke: axisLineColor }}
         />
         <Tooltip
           contentStyle={{
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
+            backgroundColor: tooltipBg,
+            border: '1px solid #EF6F38',
             borderRadius: '8px',
-            color: 'white',
-            backdropFilter: 'blur(10px)'
+            color: tooltipText,
+            backdropFilter: 'blur(10px)',
+            fontWeight: 600
           }}
+          labelStyle={{ color: tooltipText }}
+          itemStyle={{ color: tooltipText }}
         />
         <Line 
           type="monotone" 
@@ -109,6 +122,11 @@ function ProductivityLineChart({ data, animated = true }: { data: ChartDataPoint
 }
 
 function NivoLineChart({ data }: { data: ChartDataPoint[] }) {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark' || (theme === 'system' && window?.matchMedia?.('(prefers-color-scheme: dark)')?.matches)
+  
+  const textColor = isDark ? '#d1d5db' : '#374151'
+  const gridColor = isDark ? '#374151' : '#e5e7eb'
   const nivoData = useMemo(() => [
     {
       id: 'Productivity',
@@ -180,17 +198,17 @@ function NivoLineChart({ data }: { data: ChartDataPoint[] }) {
         theme={{
           axis: {
             ticks: {
-              text: { fill: 'rgba(255, 255, 255, 0.8)' }
+              text: { fill: textColor, fontWeight: 600 }
             },
             legend: {
-              text: { fill: 'rgba(255, 255, 255, 0.9)' }
+              text: { fill: textColor, fontWeight: 700 }
             }
           },
           grid: {
-            line: { stroke: 'rgba(255, 255, 255, 0.1)' }
+            line: { stroke: gridColor }
           },
           legends: {
-            text: { fill: 'rgba(255, 255, 255, 0.8)' }
+            text: { fill: textColor, fontWeight: 600 }
           }
         }}
       />
@@ -199,6 +217,10 @@ function NivoLineChart({ data }: { data: ChartDataPoint[] }) {
 }
 
 function RadialProgressChart({ data }: { data: ChartDataPoint[] }) {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark' || (theme === 'system' && window?.matchMedia?.('(prefers-color-scheme: dark)')?.matches)
+  const textColor = isDark ? '#d1d5db' : '#374151'
+  
   const latestData = data[data.length - 1] || { productivity: 0, focus: 0, energy: 0 }
   
   const radialData = [
@@ -217,18 +239,21 @@ function RadialProgressChart({ data }: { data: ChartDataPoint[] }) {
         />
         <Tooltip
           contentStyle={{
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
+            backgroundColor: isDark ? 'rgba(31, 41, 55, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+            border: '1px solid #EF6F38',
             borderRadius: '8px',
-            color: 'white'
+            color: textColor,
+            fontWeight: 600
           }}
+          labelStyle={{ color: textColor }}
+          itemStyle={{ color: textColor }}
         />
       </RadialBarChart>
     </ResponsiveContainer>
   )
 }
 
-export function AnalyticsDashboard({ className = '' }: { className?: string }) {
+export function AnalyticsDashboard({ className = '', showStats = true }: { className?: string, showStats?: boolean }) {
   const [data, setData] = useState<ChartDataPoint[]>([])
   const [chartType, setChartType] = useState<'line' | 'nivo' | 'radial'>('line')
   const [isAnimated, setIsAnimated] = useState(true)
@@ -265,39 +290,41 @@ export function AnalyticsDashboard({ className = '' }: { className?: string }) {
   }, [data])
 
   const stats = [
-    { name: 'Avg Productivity', value: Math.round(averageProductivity), icon: Brain, color: 'text-blue-400' },
-    { name: 'Current Focus', value: data[data.length - 1]?.focus || 0, icon: Target, color: 'text-purple-400' },
-    { name: 'Energy Level', value: data[data.length - 1]?.energy || 0, icon: Zap, color: 'text-green-400' },
-    { name: 'Sessions Today', value: data.length, icon: Clock, color: 'text-yellow-400' }
+    { name: 'Avg Productivity', value: Math.round(averageProductivity), icon: Brain, color: 'text-orange-500' },
+    { name: 'Current Focus', value: data[data.length - 1]?.focus || 0, icon: Target, color: 'text-golden-500' },
+    { name: 'Energy Level', value: data[data.length - 1]?.energy || 0, icon: Zap, color: 'text-pink-500' },
+    { name: 'Sessions Today', value: data.length, icon: Clock, color: 'text-orange-600' }
   ]
 
   return (
     <div className={`space-y-6 ${className}`}>
-      {/* Stats Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((stat, index) => {
-          const Icon = stat.icon
-          return (
-            <motion.div
-              key={stat.name}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-            >
-              <AppleLiquidGlass
-                material="regular"
-                blur="heavy"
-                rounded="xl"
-                className="p-4 text-center"
+      {/* Stats Grid - Only show if showStats is true */}
+      {showStats && (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {stats.map((stat, index) => {
+            const Icon = stat.icon
+            return (
+              <motion.div
+                key={stat.name}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
               >
-                <Icon className={`w-6 h-6 ${stat.color} mx-auto mb-2`} />
-                <div className="text-2xl font-bold text-white mb-1">{stat.value}</div>
-                <div className="text-xs text-white/60">{stat.name}</div>
-              </AppleLiquidGlass>
-            </motion.div>
-          )
-        })}
-      </div>
+                <AppleLiquidGlass
+                  material="regular"
+                  blur="heavy"
+                  rounded="xl"
+                  className="p-4 text-center"
+                >
+                  <Icon className={`w-6 h-6 ${stat.color} mx-auto mb-2`} />
+                  <div className="text-2xl font-black text-neutral-900 dark:text-neutral-100 mb-1">{stat.value}</div>
+                  <div className="text-xs text-neutral-800 dark:text-neutral-200 font-bold">{stat.name}</div>
+                </AppleLiquidGlass>
+              </motion.div>
+            )
+          })}
+        </div>
+      )}
 
       {/* Chart Controls */}
       <div className="flex items-center justify-between">
@@ -306,10 +333,10 @@ export function AnalyticsDashboard({ className = '' }: { className?: string }) {
             <button
               key={type}
               onClick={() => setChartType(type as any)}
-              className={`px-3 py-1 rounded-lg text-sm transition-all duration-200 ${
+              className={`px-3 py-1 rounded-lg text-sm font-bold transition-all duration-200 ${
                 chartType === type
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-white/10 text-white/70 hover:bg-white/20'
+                  ? 'bg-orange-500 text-white'
+                  : 'bg-white/80 dark:bg-gray-800/80 text-neutral-900 dark:text-neutral-100 hover:bg-orange-100 dark:hover:bg-orange-900/30'
               }`}
             >
               {type.charAt(0).toUpperCase() + type.slice(1)}
@@ -318,7 +345,7 @@ export function AnalyticsDashboard({ className = '' }: { className?: string }) {
         </div>
         <button
           onClick={() => setIsAnimated(!isAnimated)}
-          className="px-3 py-1 rounded-lg text-sm bg-white/10 text-white/70 hover:bg-white/20 transition-all duration-200"
+          className="px-3 py-1 rounded-lg text-sm font-bold bg-white/80 dark:bg-gray-800/80 text-neutral-900 dark:text-neutral-100 hover:bg-golden-100 dark:hover:bg-golden-900/30 transition-all duration-200"
         >
           {isAnimated ? 'Disable' : 'Enable'} Animation
         </button>
@@ -331,7 +358,7 @@ export function AnalyticsDashboard({ className = '' }: { className?: string }) {
         rounded="2xl"
         className="p-6"
       >
-        <h3 className="text-xl font-semibold text-white mb-4">Productivity Analytics</h3>
+        <h3 className="text-xl font-black text-neutral-900 dark:text-neutral-100 mb-4">Productivity Analytics</h3>
         <AnimatePresence mode="wait">
           <motion.div
             key={chartType}
@@ -354,8 +381,8 @@ export function AnalyticsDashboard({ className = '' }: { className?: string }) {
         rounded="xl"
         className="p-4"
       >
-        <h4 className="text-lg font-medium text-white mb-2">Performance Insights</h4>
-        <div className="text-sm text-white/80 space-y-1">
+        <h4 className="text-lg font-black text-neutral-900 mb-2">Performance Insights</h4>
+        <div className="text-sm text-neutral-800 font-bold space-y-1">
           <div>• {averageProductivity > 80 ? 'Excellent' : averageProductivity > 60 ? 'Good' : 'Needs improvement'} productivity trend</div>
           <div>• Peak performance during {data.reduce((peak, current) => 
             current.productivity > peak.productivity ? current : peak, data[0] || {})?.name || 'N/A'}</div>

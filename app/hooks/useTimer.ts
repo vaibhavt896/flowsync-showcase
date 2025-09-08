@@ -11,6 +11,8 @@ export function useTimer() {
     isPaused,
     timeRemaining,
     sessionsCompleted,
+    suggestedBreakType,
+    suggestedBreakDuration,
     startTimer,
     pauseTimer,
     resumeTimer,
@@ -19,6 +21,8 @@ export function useTimer() {
     completeSession,
     getAdaptiveInterval,
     resetTimer,
+    clearBreakSuggestion,
+    startSuggestedBreak,
   } = useTimerStore()
 
   const { isCurrentlyInFlow } = useFlowStore()
@@ -26,10 +30,12 @@ export function useTimer() {
 
   // Timer tick function
   const tick = useCallback(() => {
+    console.log('⏰ Timer tick:', timeRemaining)
     if (timeRemaining > 0) {
       updateTimeRemaining(timeRemaining - 1)
     } else {
       // Session completed
+      console.log('🎯 Timer completed! Starting completion sequence...')
       if (timerRef.current) {
         clearInterval(timerRef.current)
         timerRef.current = null
@@ -40,12 +46,12 @@ export function useTimer() {
       
       // Notify completion
       if (preferences.notifications) {
+        console.log('📱 Showing notification...')
         showNotification()
       }
       
-      if (preferences.soundEnabled) {
-        playCompletionSound()
-      }
+      // Alarm sound is now handled in timerStore.completeSession()
+      console.log('🔔 Timer completion handled by completeSession()')
     }
   }, [timeRemaining, updateTimeRemaining, completeSession, preferences])
 
@@ -106,25 +112,6 @@ export function useTimer() {
     }
   }
 
-  const playCompletionSound = () => {
-    // Simple beep sound - in a real app you'd have audio files
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
-    const oscillator = audioContext.createOscillator()
-    const gain = audioContext.createGain()
-    
-    oscillator.connect(gain)
-    gain.connect(audioContext.destination)
-    
-    oscillator.frequency.setValueAtTime(800, audioContext.currentTime)
-    oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.1)
-    oscillator.frequency.setValueAtTime(800, audioContext.currentTime + 0.2)
-    
-    gain.gain.setValueAtTime(0.3, audioContext.currentTime)
-    gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3)
-    
-    oscillator.start(audioContext.currentTime)
-    oscillator.stop(audioContext.currentTime + 0.3)
-  }
 
   const requestNotificationPermission = async () => {
     if ('Notification' in window) {
@@ -185,6 +172,8 @@ export function useTimer() {
     timeRemaining,
     sessionsCompleted,
     totalTime: currentSession?.duration || getAdaptiveInterval(),
+    suggestedBreakType,
+    suggestedBreakDuration,
     
     // Actions
     startFocusSession,
@@ -198,6 +187,8 @@ export function useTimer() {
     reset: resetTimer,
     startTimer,
     pauseTimer,
+    clearBreakSuggestion,
+    startSuggestedBreak,
     
     // Utilities
     requestNotificationPermission,

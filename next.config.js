@@ -37,15 +37,6 @@ const nextConfig = {
   },
   // Transpile specific packages that need it
   transpilePackages: ['three', '@react-three/fiber', '@react-three/drei', 'howler'],
-  // Proxy API requests to backend server
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'http://localhost:3001/api/:path*',
-      },
-    ]
-  },
 }
 
 module.exports = nextConfig

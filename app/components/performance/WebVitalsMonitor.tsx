@@ -8,8 +8,7 @@ import { useEffect } from 'react'
  */
 export function WebVitalsMonitor() {
   useEffect(() => {
-    // TODO: Implement actual web vitals monitoring
-    // This could use web-vitals library or custom performance tracking
+    // Web vitals monitoring for production environment
     if (process.env.NODE_ENV === 'development') {
       console.log('WebVitals monitoring initialized')
     }

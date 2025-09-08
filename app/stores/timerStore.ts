@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { TimerSession, TimerState, ProductivityMetrics } from '@/types'
 import { generateId } from '@/utils/helpers'
+import { useUserStore } from '@/stores/userStore'
 
 interface TimerStore extends TimerState {
   // Actions
@@ -15,6 +16,7 @@ interface TimerStore extends TimerState {
   setAdaptiveInterval: (interval: number) => void
   resetTimer: () => void
   initializeTimer: () => void
+  updateFromPreferences: () => void
   
   // Session history
   sessionHistory: TimerSession[]
@@ -22,6 +24,15 @@ interface TimerStore extends TimerState {
   getRecentSessions: (limit?: number) => TimerSession[]
   getTodaySessions: () => TimerSession[]
   suggestNextSession: () => void
+  
+  // Break suggestion state
+  suggestedBreakType: 'short-break' | 'long-break' | null
+  suggestedBreakDuration: number
+  clearBreakSuggestion: () => void
+  startSuggestedBreak: () => void
+  
+  // Helper methods
+  getUserPreferences: () => any
   
   // Computed properties
   totalFocusTime: number
@@ -36,23 +47,34 @@ const DEFAULT_INTERVALS = {
 export const useTimerStore = create<TimerStore>()(
   persist(
     (set, get) => ({
+      // Helper methods
+      getUserPreferences: () => {
+        return useUserStore.getState().preferences
+      },
+
       // Initial state
       currentSession: null,
       isRunning: false,
       isPaused: false,
-      timeRemaining: DEFAULT_INTERVALS.focus,
+      timeRemaining: DEFAULT_INTERVALS.focus, // Will be updated by initializeTimer
       sessionsCompleted: 0,
       currentCycle: 1,
-      adaptiveInterval: DEFAULT_INTERVALS.focus,
+      adaptiveInterval: DEFAULT_INTERVALS.focus, // Will be updated by initializeTimer
       sessionHistory: [],
+      
+      // Break suggestion state
+      suggestedBreakType: null,
+      suggestedBreakDuration: 0,
 
       // Actions
       startTimer: (type, duration) => {
-        const adaptiveInterval = get().getAdaptiveInterval()
+        const preferences = get().getUserPreferences()
+        
+        // Use provided duration, or get from user preferences (NOT adaptive interval)
         const sessionDuration = duration || 
-          (type === 'focus' ? adaptiveInterval : 
-           type === 'short-break' ? DEFAULT_INTERVALS.shortBreak : 
-           DEFAULT_INTERVALS.longBreak)
+          (type === 'focus' ? preferences.focusDuration : 
+           type === 'short-break' ? preferences.shortBreakDuration : 
+           preferences.longBreakDuration)
 
         const newSession: TimerSession = {
           id: generateId(),
@@ -63,6 +85,9 @@ export const useTimerStore = create<TimerStore>()(
           interruptions: 0,
         }
 
+        // Clear any existing break suggestion when starting a new session
+        get().clearBreakSuggestion()
+        
         set({
           currentSession: newSession,
           isRunning: true,
@@ -99,7 +124,7 @@ export const useTimerStore = create<TimerStore>()(
         })
       },
 
-      completeSession: (metrics) => {
+      completeSession: async (metrics) => {
         const { currentSession, sessionsCompleted } = get()
         if (currentSession) {
           const completedSession: TimerSession = {
@@ -126,6 +151,34 @@ export const useTimerStore = create<TimerStore>()(
             currentCycle: newCycle,
           })
 
+          // Play completion alarm sound
+          try {
+            console.log('🔔 Session completed! Playing alarm...')
+            const { useSoundStore } = await import('@/stores/soundStore')
+            const { audioService } = await import('@/services/audioService')
+            
+            const { alarmSound, alarmVolume, enableSounds, alarmSounds } = useSoundStore.getState()
+            
+            console.log('🔔 Alarm settings:', {
+              enableSounds,
+              alarmSound,
+              alarmVolume,
+              alarmSoundsAvailable: alarmSounds.map(s => s.id)
+            })
+            
+            if (enableSounds && alarmSound && alarmSound !== 'none') {
+              // Ensure the sound is preloaded
+              await audioService.preloadSounds(alarmSounds)
+              console.log('🔔 Playing completion alarm:', alarmSound, 'volume:', alarmVolume)
+              await audioService.playAlarm(alarmSound, alarmVolume)
+              console.log('🔔 ✅ Alarm sound played successfully!')
+            } else {
+              console.log('🔔 Alarm sound disabled or set to none')
+            }
+          } catch (error) {
+            console.error('🔔 ❌ Failed to play completion alarm:', error)
+          }
+
           // Auto-suggest next session
           get().suggestNextSession()
         }
@@ -141,11 +194,12 @@ export const useTimerStore = create<TimerStore>()(
       },
 
       getAdaptiveInterval: () => {
+        const preferences = get().getUserPreferences()
         const recentSessions = get().getRecentSessions(10)
         const focusSessions = recentSessions.filter(s => s.type === 'focus' && s.isCompleted)
         
         if (focusSessions.length < 3) {
-          return DEFAULT_INTERVALS.focus
+          return preferences.focusDuration
         }
 
         // Calculate average completion rate and adjust accordingly
@@ -162,7 +216,7 @@ export const useTimerStore = create<TimerStore>()(
           adjustment = 0.9 // Decrease by 10% if frequently interrupted
         }
 
-        const newInterval = Math.round(DEFAULT_INTERVALS.focus * adjustment)
+        const newInterval = Math.round(preferences.focusDuration * adjustment)
         return Math.max(15 * 60, Math.min(45 * 60, newInterval)) // Clamp between 15-45 minutes
       },
 
@@ -180,11 +234,28 @@ export const useTimerStore = create<TimerStore>()(
       },
 
       initializeTimer: () => {
-        const adaptiveInterval = get().getAdaptiveInterval()
+        // Use current user preferences (will be 25min on fresh load, custom during session)
+        const preferences = get().getUserPreferences()
+        const displayInterval = preferences.focusDuration
+        console.log('🕒 Initializing timer with:', displayInterval / 60, 'minutes')
         set({ 
-          adaptiveInterval,
-          timeRemaining: adaptiveInterval 
+          adaptiveInterval: displayInterval,
+          timeRemaining: displayInterval 
         })
+      },
+
+      updateFromPreferences: () => {
+        const { currentSession, isRunning, suggestedBreakType } = get()
+        
+        // Only update if timer is not currently running and no break is suggested
+        if (!isRunning && !currentSession && !suggestedBreakType) {
+          // When user saves settings, update to their custom focus duration
+          const preferences = get().getUserPreferences()
+          set({ 
+            adaptiveInterval: preferences.focusDuration,
+            timeRemaining: preferences.focusDuration 
+          })
+        }
       },
 
       // Session history methods
@@ -210,16 +281,36 @@ export const useTimerStore = create<TimerStore>()(
 
       // Helper method to suggest next session
       suggestNextSession: () => {
+        const preferences = get().getUserPreferences()
         const { sessionsCompleted } = get()
         const shouldTakeLongBreak = sessionsCompleted > 0 && sessionsCompleted % 4 === 0
         
         // This would typically trigger a notification or UI update
         // For now, we'll just update the default time remaining
-        const nextType = shouldTakeLongBreak ? 'long-break' : 'short-break'
         const nextDuration = shouldTakeLongBreak ? 
-          DEFAULT_INTERVALS.longBreak : DEFAULT_INTERVALS.shortBreak
+          preferences.longBreakDuration : preferences.shortBreakDuration
         
-        set({ timeRemaining: nextDuration })
+        set({ 
+          timeRemaining: nextDuration,
+          suggestedBreakType: shouldTakeLongBreak ? 'long-break' : 'short-break',
+          suggestedBreakDuration: nextDuration
+        })
+      },
+
+      // Break suggestion methods
+      clearBreakSuggestion: () => {
+        set({ 
+          suggestedBreakType: null,
+          suggestedBreakDuration: 0 
+        })
+      },
+
+      startSuggestedBreak: () => {
+        const { suggestedBreakType, suggestedBreakDuration } = get()
+        if (suggestedBreakType && suggestedBreakDuration > 0) {
+          get().startTimer(suggestedBreakType, suggestedBreakDuration)
+          get().clearBreakSuggestion()
+        }
       },
 
       // Computed property: total focus time

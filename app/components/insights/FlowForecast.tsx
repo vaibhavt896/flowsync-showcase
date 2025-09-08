@@ -127,19 +127,19 @@ export function FlowForecast() {
                 <div className="text-2xl font-bold text-blue-500">
                   {Math.round(currentPrediction.neuralSignals.typingRhythm)}%
                 </div>
-                <div className="text-xs text-gray-500">Typing Rhythm</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">Typing Rhythm</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-green-500">
                   {Math.round(currentPrediction.neuralSignals.cursorSmoothness)}%
                 </div>
-                <div className="text-xs text-gray-500">Cursor Flow</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">Cursor Flow</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-purple-500">
                   {Math.round(currentPrediction.neuralSignals.cognitiveStability)}%
                 </div>
-                <div className="text-xs text-gray-500">Mental Stability</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">Mental Stability</div>
               </div>
             </div>
 
@@ -177,7 +177,7 @@ export function FlowForecast() {
               className="flex items-center justify-between py-2"
             >
               <div className="flex items-center gap-3">
-                <div className="text-sm font-mono text-gray-500">
+                <div className="text-sm font-mono text-gray-500 dark:text-gray-400">
                   {forecast.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </div>
                 <div className="flex-1">
@@ -198,7 +198,7 @@ export function FlowForecast() {
                 <div className={`text-sm font-bold ${getFlowColor(forecast.flowProbability)}`}>
                   {Math.round(forecast.flowProbability * 100)}%
                 </div>
-                <div className="text-xs text-gray-500">
+                <div className="text-xs text-gray-500 dark:text-gray-400">
                   {Math.round(forecast.confidence * 100)}% confidence
                 </div>
               </div>

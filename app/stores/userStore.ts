@@ -98,6 +98,12 @@ export const useUserStore = create<UserStore>()(
       },
 
       initializeUser: () => {
+        // Simple approach: Always reset preferences on initializeUser call
+        // This will happen on every page load/refresh, but not on component remounts
+        // We control when initializeUser is called from the Timer component
+        console.log('🔄 Initializing user - resetting to 25min defaults')
+        set({ preferences: DEFAULT_PREFERENCES })
+        
         // Create a demo user if not authenticated
         const { isAuthenticated } = get()
         if (!isAuthenticated) {

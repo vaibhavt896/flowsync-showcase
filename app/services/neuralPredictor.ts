@@ -219,14 +219,12 @@ export class NeuralStatePredictor {
     if (this.isCollecting) return
     this.isCollecting = true
     
-    console.log('🧠 Neural Prediction Engine: Starting data collection')
     this.startTypingAnalysis()
     this.startCursorTracking()
     this.startCognitiveMonitoring()
   }
 
   private startTypingAnalysis() {
-    console.log('⌨️ Starting typing pattern analysis')
     
     document.addEventListener('keydown', (event) => {
       const now = Date.now()

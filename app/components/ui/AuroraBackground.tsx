@@ -4,8 +4,8 @@ import React, { useEffect, useRef } from 'react'
 import { motion, useMotionValue, animate } from 'framer-motion'
 
 const AURORA_COLORS = [
-  '#13FFAA', '#1E67C6', '#CE84CF', '#DD335C',
-  '#00D4FF', '#FF006E', '#8338EC', '#3A86FF'
+  '#EF6F38', '#F3A340', '#F088A3', '#F0BB43',
+  '#EF6F38', '#F3ECD2', '#F088A3', '#F3A340'
 ]
 
 export function AuroraBackground() {
@@ -93,7 +93,7 @@ export function AuroraBackground() {
 // AuroraOrb component for 3D-like orb effects
 export function AuroraOrb({
   size = 200,
-  color = '#13FFAA',
+  color = '#EF6F38',
   className = '',
   intensity = 0.6,
 }: {

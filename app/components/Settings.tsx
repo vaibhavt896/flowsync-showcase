@@ -1,13 +1,16 @@
 import { motion } from 'framer-motion'
-import { Save, Bell, Volume2, Shield, Palette } from 'lucide-react'
+import { Save, Bell, Palette } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { useUserStore } from '@/stores/userStore'
 import { useThemeStore } from '@/stores/themeStore'
+import { useTimerStore } from '@/stores/timerStore'
+import SimpleSoundSettings from '@/components/settings/SimpleSoundSettings'
 import { useState } from 'react'
 
 export default function Settings() {
   const { preferences, updatePreferences } = useUserStore()
   const { theme, setTheme } = useThemeStore()
+  const { updateFromPreferences } = useTimerStore()
   const [localPreferences, setLocalPreferences] = useState(preferences)
   const [hasChanges, setHasChanges] = useState(false)
 
@@ -18,6 +21,7 @@ export default function Settings() {
 
   const saveSettings = () => {
     updatePreferences(localPreferences)
+    updateFromPreferences() // Update timer with new preferences
     setHasChanges(false)
   }
 
@@ -89,7 +93,7 @@ export default function Settings() {
                 onChange={(e) => updateLocalPref('focusDuration', parseInt(e.target.value) * 60)}
                 className="input-field"
               />
-              <span className="text-sm text-gray-500">minutes</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">minutes</span>
             </div>
           </div>
           
@@ -106,7 +110,7 @@ export default function Settings() {
                 onChange={(e) => updateLocalPref('shortBreakDuration', parseInt(e.target.value) * 60)}
                 className="input-field"
               />
-              <span className="text-sm text-gray-500">minutes</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">minutes</span>
             </div>
           </div>
           
@@ -123,7 +127,7 @@ export default function Settings() {
                 onChange={(e) => updateLocalPref('longBreakDuration', parseInt(e.target.value) * 60)}
                 className="input-field"
               />
-              <span className="text-sm text-gray-500">minutes</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">minutes</span>
             </div>
           </div>
         </div>
@@ -167,18 +171,28 @@ export default function Settings() {
         </div>
       </motion.section>
 
-      {/* Notifications */}
+
+      {/* Sound Settings */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
+      >
+        <SimpleSoundSettings />
+      </motion.section>
+
+      {/* Notifications */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
         className="card p-6"
       >
         <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
           <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
             <Bell className="w-4 h-4 text-blue-600 dark:text-blue-400" />
           </div>
-          Notifications & Sound
+          Notifications
         </h2>
         
         <div className="space-y-4">
@@ -190,19 +204,7 @@ export default function Settings() {
               className="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
             <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              Enable notifications
-            </span>
-          </label>
-          
-          <label className="flex items-center gap-3">
-            <input
-              type="checkbox"
-              checked={localPreferences.soundEnabled}
-              onChange={(e) => updateLocalPref('soundEnabled', e.target.checked)}
-              className="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              Enable sound alerts
+              Enable browser notifications
             </span>
           </label>
         </div>
@@ -212,7 +214,7 @@ export default function Settings() {
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
+        transition={{ delay: 0.5 }}
         className="card p-6"
       >
         <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">

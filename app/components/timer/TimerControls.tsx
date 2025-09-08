@@ -1,6 +1,8 @@
+import React from 'react'
 import { motion } from 'framer-motion'
 import { Play, Pause, Square, SkipForward, RotateCcw } from 'lucide-react'
 import { AppleLiquidButton, AppleLiquidGlass } from '@/components/ui/AppleLiquidGlass'
+import { FlowStateLoader, FocusLoader } from '@/components/ui/RiveLoader'
 import { useTimer } from '@/hooks/useTimer'
 import { useFlowStore } from '@/stores/flowStore'
 import { cn } from '@/utils/helpers'
@@ -14,6 +16,8 @@ export function TimerControls({ className }: TimerControlsProps) {
     isRunning,
     isPaused,
     currentSession,
+    suggestedBreakType,
+    suggestedBreakDuration,
     toggleTimer,
     pause,
     resume,
@@ -22,13 +26,18 @@ export function TimerControls({ className }: TimerControlsProps) {
     reset,
     startFocusSession,
     startBreak,
+    clearBreakSuggestion,
+    startSuggestedBreak,
   } = useTimer()
 
   const { isCurrentlyInFlow } = useFlowStore()
   const inFlow = isCurrentlyInFlow()
 
+
   const hasActiveSession = !!currentSession
-  const canStart = !hasActiveSession
+  const hasSuggestedBreak = !!suggestedBreakType && suggestedBreakDuration > 0
+  const canStart = !hasActiveSession && !hasSuggestedBreak
+  const canStartBreak = !hasActiveSession && hasSuggestedBreak
   const canPause = isRunning && hasActiveSession
   const canResume = isPaused && hasActiveSession
   const canStop = hasActiveSession
@@ -47,26 +56,47 @@ export function TimerControls({ className }: TimerControlsProps) {
             onClick={() => startFocusSession()}
             variant="primary"
             size="lg"
-            className="px-12 py-6 text-xl font-light"
-            icon={<Play className="w-8 h-8" />}
+            className="font-bold text-white shadow-2xl shadow-orange-500/30"
+            icon={<Play className="w-6 h-6 drop-shadow-sm" />}
           >
             Start Focus
           </AppleLiquidButton>
         )}
 
-        <div className="flex items-center gap-4">
+        {canStartBreak && (
+          <AppleLiquidButton
+            onClick={startSuggestedBreak}
+            variant="secondary"
+            size="lg"
+            className={cn(
+              "font-bold text-white shadow-2xl transition-all duration-300",
+              suggestedBreakType === 'long-break' 
+                ? "shadow-pink-500/30 hover:shadow-pink-500/50" 
+                : "shadow-golden-500/30 hover:shadow-golden-500/50"
+            )}
+            icon={
+              <span className="text-xl drop-shadow-sm">
+                {suggestedBreakType === 'long-break' ? '🧘' : '🌱'}
+              </span>
+            }
+          >
+            Start {suggestedBreakType === 'long-break' ? 'Long' : 'Short'} Break
+          </AppleLiquidButton>
+        )}
+
+        <div className="flex flex-wrap items-center justify-center gap-3">
           {canPause && (
             <AppleLiquidButton
               onClick={pause}
               variant={inFlow ? "primary" : "secondary"}
-              size="lg"
+              size="md"
               className={cn(
-                'px-8 py-4 text-lg font-light',
-                inFlow && 'bg-yellow-500/20 border-yellow-400/50'
+                'font-medium transition-all duration-300',
+                inFlow && 'shadow-lg shadow-yellow-400/20 text-yellow-100'
               )}
-              icon={<Pause className="w-6 h-6" />}
+              icon={<Pause className={cn("w-5 h-5", inFlow && "text-yellow-200")} />}
             >
-              {inFlow ? 'Pause (Flow)' : 'Pause'}
+              {inFlow ? 'Pause' : 'Pause'}
             </AppleLiquidButton>
           )}
 
@@ -74,9 +104,9 @@ export function TimerControls({ className }: TimerControlsProps) {
             <AppleLiquidButton
               onClick={resume}
               variant="primary"
-              size="lg"
-              className="px-8 py-4 text-lg font-light"
-              icon={<Play className="w-6 h-6" />}
+              size="md"
+              className="font-bold text-white shadow-lg shadow-golden-500/20"
+              icon={<Play className="w-5 h-5 text-white" />}
             >
               Resume
             </AppleLiquidButton>
@@ -85,10 +115,10 @@ export function TimerControls({ className }: TimerControlsProps) {
           {canStop && (
             <AppleLiquidButton
               onClick={stop}
-              variant="ghost"
-              size="lg"
-              className="px-8 py-4 text-lg font-light text-red-300 hover:text-red-200"
-              icon={<Square className="w-6 h-6" />}
+              variant="secondary"
+              size="md"
+              className="font-bold text-white hover:text-white hover:shadow-md hover:shadow-pink-500/20"
+              icon={<Square className="w-5 h-5" />}
             >
               Stop
             </AppleLiquidButton>
@@ -102,57 +132,62 @@ export function TimerControls({ className }: TimerControlsProps) {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.1, type: "spring", stiffness: 300, damping: 25 }}
-          className="flex items-center gap-4"
+          className="flex flex-wrap items-center justify-center gap-3"
         >
           <AppleLiquidButton
             onClick={skip}
-            variant="ghost"
+            variant="secondary"
             size="sm"
-            className="text-white/60 hover:text-white/80 font-light"
-            icon={<SkipForward className="w-5 h-5" />}
+            className="text-white font-bold hover:text-white hover:shadow-sm hover:shadow-golden-500/20"
+            icon={<SkipForward className="w-4 h-4" />}
           >
             Skip
           </AppleLiquidButton>
 
           <AppleLiquidButton
             onClick={reset}
-            variant="ghost"
+            variant="secondary"
             size="sm"
-            className="text-white/60 hover:text-white/80 font-light"
-            icon={<RotateCcw className="w-5 h-5" />}
+            className="text-white font-bold hover:text-white hover:shadow-sm hover:shadow-golden-500/20"
+            icon={<RotateCcw className="w-4 h-4" />}
           >
             Reset
           </AppleLiquidButton>
         </motion.div>
       )}
 
-      {/* Quick Start Apple Liquid Glass Options */}
-      {!hasActiveSession && (
+      {/* Break Suggestion Actions */}
+      {canStartBreak && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, type: "spring", stiffness: 200, damping: 20 }}
-          className="flex items-center gap-4"
+          transition={{ delay: 0.2, type: "spring", stiffness: 200, damping: 20 }}
+          className="flex flex-wrap items-center justify-center gap-3"
         >
           <AppleLiquidButton
-            onClick={() => startBreak(false)}
-            variant="ghost"
+            onClick={clearBreakSuggestion}
+            variant="secondary"
             size="sm"
-            className="text-emerald-300 hover:text-emerald-200 font-light tracking-wide"
+            className="text-white font-bold hover:text-white hover:shadow-md hover:shadow-gray-500/20"
+            icon={<SkipForward className="w-4 h-4" />}
           >
-            Short Break (5m)
+            Skip Break
           </AppleLiquidButton>
 
           <AppleLiquidButton
-            onClick={() => startBreak(true)}
-            variant="ghost"
+            onClick={() => startFocusSession()}
+            variant="secondary"
             size="sm"
-            className="text-purple-300 hover:text-purple-200 font-light tracking-wide"
+            className="text-white font-bold hover:text-white hover:shadow-md hover:shadow-orange-500/20"
+            icon={<Play className="w-4 h-4" />}
           >
-            Long Break (15m)
+            Back to Focus
           </AppleLiquidButton>
         </motion.div>
       )}
+
+      {/* Removed break buttons from initial screen for better productivity UX */}
+      {/* Break buttons only appear as suggestions after completing focus sessions */}
 
       {/* Flow State Apple Liquid Glass Warning */}
       {inFlow && canPause && (
@@ -168,13 +203,38 @@ export function TimerControls({ className }: TimerControlsProps) {
             specularHighlight={true}
             className="p-6 text-center max-w-sm border border-yellow-400/30"
           >
-            <div className="text-sm text-yellow-300">
-              <div className="font-medium text-lg mb-2 tracking-tight">⚡ Flow State Detected</div>
-              <div className="text-xs text-yellow-300/80 font-light leading-relaxed">
+            <div className="text-sm text-contrast-primary">
+              <div className="font-black text-lg mb-2 tracking-tight text-orange-600">⚡ Flow State Detected</div>
+              <div className="text-xs text-contrast-secondary font-semibold leading-relaxed">
                 You're in deep focus. Consider continuing to maintain momentum.
               </div>
             </div>
           </AppleLiquidGlass>
+        </motion.div>
+      )}
+
+
+      {/* Enhanced Loading State for Session Start */}
+      {isRunning && currentSession && !isPaused && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2 }}
+          className="flex justify-center"
+        >
+          {inFlow ? (
+            <FlowStateLoader 
+              size="md" 
+              message="In flow state..." 
+              className="my-4"
+            />
+          ) : (
+            <FocusLoader 
+              size="md" 
+              message="Focusing..." 
+              className="my-4"
+            />
+          )}
         </motion.div>
       )}
 
@@ -191,12 +251,12 @@ export function TimerControls({ className }: TimerControlsProps) {
             rounded="lg"
             className="p-4 text-center text-sm"
           >
-            <div className="text-white/60 font-light space-y-1">
+            <div className="text-contrast-secondary font-semibold space-y-1">
               <div className="tracking-wide">
                 Session started at {new Date(currentSession.startTime).toLocaleTimeString()}
               </div>
               {currentSession.interruptions > 0 && (
-                <div className="text-yellow-300/80 text-xs">
+                <div className="text-orange-600 text-xs font-bold">
                   {currentSession.interruptions} interruption{currentSession.interruptions !== 1 ? 's' : ''}
                 </div>
               )}
