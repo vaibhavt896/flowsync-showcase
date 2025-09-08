@@ -62,7 +62,7 @@ export function AdaptiveContainer({
           animate: { 
             scale: [0.95, 1.02, 1],
             opacity: 1,
-            transition: { duration: 0.6, ease: 'easeOut' }
+            transition: { duration: 0.6, ease: "easeOut" as const }
           }
         }
       case 'focused':
@@ -70,7 +70,7 @@ export function AdaptiveContainer({
           initial: { opacity: 0.9 },
           animate: { 
             opacity: 1,
-            transition: { duration: 1.2, ease: 'easeInOut' }
+            transition: { duration: 1.2, ease: "easeInOut" as const }
           }
         }
       case 'calm':
@@ -79,7 +79,7 @@ export function AdaptiveContainer({
           animate: { 
             y: 0, 
             opacity: 1,
-            transition: { duration: 0.8, ease: 'easeOut' }
+            transition: { duration: 0.8, ease: "easeOut" as const }
           }
         }
       case 'frustrated':
@@ -88,7 +88,7 @@ export function AdaptiveContainer({
           animate: { 
             x: 0, 
             opacity: 1,
-            transition: { duration: 0.4, ease: 'easeOut' }
+            transition: { duration: 0.4, ease: "easeOut" as const }
           }
         }
       default:

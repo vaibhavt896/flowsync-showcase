@@ -29,7 +29,6 @@ export function RiveToggleButton({
   // Rive animation configuration for toggle
   const riveOptions: UseRiveParameters = {
     src: 'toggle-animation.riv', // We'll create a fallback animation
-    canvas: riveRef.current,
     autoplay: true,
     stateMachines: ['ToggleStateMachine'],
     onLoad: () => {

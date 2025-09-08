@@ -27,7 +27,6 @@ export function RiveLoader({
   // Rive animation configuration
   const riveOptions: UseRiveParameters = {
     src: `loader-${variant}.riv`, // Different Rive files for different variants
-    canvas: riveRef.current,
     autoplay: true,
     stateMachines: ['LoaderStateMachine'],
     onLoad: () => {

@@ -70,7 +70,6 @@ function RiveNavItem({ item, isActive, isTransitioning, onClick }: RiveNavItemPr
 
   const riveOptions: UseRiveParameters = {
     src: item.riveFile || 'default-nav.riv',
-    canvas: riveRef.current,
     autoplay: false,
     stateMachines: ['NavStateMachine'],
     onLoad: () => {
@@ -253,7 +252,6 @@ export default function RiveNavigation() {
   // Logo Rive Animation
   const logoRiveOptions: UseRiveParameters = {
     src: 'logo-nav.riv',
-    canvas: logoRiveRef.current,
     autoplay: true,
     stateMachines: ['LogoStateMachine'],
     onLoad: () => {

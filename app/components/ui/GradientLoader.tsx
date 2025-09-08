@@ -58,7 +58,7 @@ export default function GradientLoader({
   className = ''
 }: GradientLoaderProps) {
   const [animationData, setAnimationData] = useState(null)
-  const lottieRef = useRef(null)
+  const lottieRef = useRef<any>(null)
 
   // Load and customize the animation data
   useEffect(() => {

@@ -261,23 +261,13 @@ export default function SoundSettings() {
     alarmVolume,
     tickingSound,
     tickingVolume,
-    ambientSound,
-    ambientVolume,
-    notificationSound,
-    notificationVolume,
     enableSounds,
     alarmSounds,
     tickingSounds,
-    ambientSounds,
-    notificationSounds,
     setAlarmSound,
     setAlarmVolume,
     setTickingSound,
     setTickingVolume,
-    setAmbientSound,
-    setAmbientVolume,
-    setNotificationSound,
-    setNotificationVolume,
     toggleSounds,
     resetToDefaults
   } = useSoundStore()
@@ -286,12 +276,10 @@ export default function SoundSettings() {
   useEffect(() => {
     const allSounds = [
       ...alarmSounds,
-      ...tickingSounds,
-      ...ambientSounds,
-      ...notificationSounds
+      ...tickingSounds
     ]
     audioService.preloadSounds(allSounds)
-  }, [alarmSounds, tickingSounds, ambientSounds, notificationSounds])
+  }, [alarmSounds, tickingSounds])
 
   return (
     <div className="space-y-6">
@@ -349,28 +337,6 @@ export default function SoundSettings() {
           onSoundChange={setTickingSound}
           onVolumeChange={setTickingVolume}
           previewId="ticking"
-        />
-
-        <SoundCategory
-          title="Ambient Sound"
-          description="Background atmosphere for focus sessions"
-          selectedSound={ambientSound}
-          volume={ambientVolume}
-          sounds={ambientSounds}
-          onSoundChange={setAmbientSound}
-          onVolumeChange={setAmbientVolume}
-          previewId="ambient"
-        />
-
-        <SoundCategory
-          title="Notification Sound"
-          description="Quick alerts and notifications"
-          selectedSound={notificationSound}
-          volume={notificationVolume}
-          sounds={notificationSounds}
-          onSoundChange={setNotificationSound}
-          onVolumeChange={setNotificationVolume}
-          previewId="notification"
         />
       </div>
 

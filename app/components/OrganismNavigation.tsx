@@ -38,14 +38,14 @@ const specialItems = [
 
 // Enhanced spring animations
 const poppySpring = { 
-  type: "spring", 
+  type: "spring" as const, 
   damping: 20, 
   stiffness: 300, 
   mass: 0.8 
 }
 
 const magneticSpring = { 
-  type: "spring", 
+  type: "spring" as const, 
   damping: 15, 
   stiffness: 400, 
   mass: 0.5 

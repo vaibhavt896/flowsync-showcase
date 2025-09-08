@@ -42,7 +42,6 @@ export function RiveCheckbox({
   // Rive animation configuration for checkbox
   const riveOptions: UseRiveParameters = {
     src: 'checkbox-animation.riv', // We'll create a fallback animation
-    canvas: riveRef.current,
     autoplay: false,
     stateMachines: ['CheckboxStateMachine'],
     onLoad: () => {
