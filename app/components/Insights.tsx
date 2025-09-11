@@ -3,6 +3,7 @@ import { Brain, TrendingUp, Calendar, Lightbulb } from 'lucide-react'
 import { FlowForecast } from './insights/FlowForecast'
 import { BiologicalRhythms } from './insights/BiologicalRhythms'
 import { ProductivityMirrorComponent } from './insights/ProductivityMirror'
+import { AnalyticsDashboard } from '@/components/ui/PremiumCharts'
 
 export default function Insights() {
   return (
@@ -47,6 +48,16 @@ export default function Insights() {
         <ProductivityMirrorComponent />
       </motion.div>
 
+      {/* Productivity Analytics Dashboard */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.4 }}
+        className="min-h-[400px]"
+      >
+        <AnalyticsDashboard className="h-full" showStats={true} />
+      </motion.div>
+
       {/* Feature Preview */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {[
@@ -78,7 +89,7 @@ export default function Insights() {
               key={feature.title}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 + index * 0.1 }}
+              transition={{ delay: 0.5 + index * 0.1 }}
               className="card p-6"
             >
               <div className={`w-12 h-12 rounded-lg ${feature.bgColor} flex items-center justify-center mb-4`}>
@@ -99,7 +110,7 @@ export default function Insights() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6 }}
+        transition={{ delay: 0.8 }}
         className="card p-6"
       >
         <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
@@ -122,7 +133,7 @@ export default function Insights() {
               key={item.name}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.7 + index * 0.1 }}
+              transition={{ delay: 0.9 + index * 0.1 }}
               className="space-y-2"
             >
               <div className="flex justify-between items-center">
@@ -138,7 +149,7 @@ export default function Insights() {
                   className="bg-gradient-to-r from-primary-500 to-focus-500 h-2 rounded-full"
                   initial={{ width: 0 }}
                   animate={{ width: `${item.progress}%` }}
-                  transition={{ delay: 0.8 + index * 0.1, duration: 0.8 }}
+                  transition={{ delay: 1.0 + index * 0.1, duration: 0.8 }}
                 />
               </div>
               <div className="text-xs text-gray-500 text-right">

@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { 
   Timer, 
-  BarChart3, 
   Brain, 
   Settings, 
   Menu, 
@@ -23,7 +22,6 @@ interface LayoutProps {
 
 const navigation = [
   { name: 'Timer', href: '/', icon: Timer },
-  { name: 'Dashboard', href: '/dashboard', icon: BarChart3 },
   { name: 'Insights', href: '/insights', icon: Brain },
   { name: 'Settings', href: '/settings', icon: Settings },
 ]

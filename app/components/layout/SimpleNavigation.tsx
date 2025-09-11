@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { 
   Timer, 
-  BarChart3, 
   Brain, 
   Settings, 
   Menu, 
@@ -24,7 +23,6 @@ interface SimpleNavigationProps {
 
 const navigation = [
   { name: 'Timer', href: '/', icon: Timer, color: '#EF6F38', gradient: 'from-orange-500 to-orange-600' },
-  { name: 'Dashboard', href: '/dashboard', icon: BarChart3, color: '#F3A340', gradient: 'from-golden-500 to-golden-600' },
   { name: 'Insights', href: '/insights', icon: Brain, color: '#F088A3', gradient: 'from-pink-500 to-pink-600' },
   { name: 'Settings', href: '/settings', icon: Settings, color: '#F0BB43', gradient: 'from-yellow-500 to-yellow-600' },
 ]
@@ -93,7 +91,7 @@ export default function SimpleNavigation({ children }: SimpleNavigationProps) {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-1 lg:space-x-2">
-              {navigation.map((item, index) => {
+              {navigation.map((item) => {
                 const isActive = pathname === item.href
                 const Icon = item.icon
                 

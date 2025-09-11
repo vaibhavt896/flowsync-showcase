@@ -3,7 +3,6 @@
 import React from 'react'
 import { 
   Timer, 
-  BarChart3, 
   Brain, 
   Settings,
   Sun,
@@ -28,12 +27,6 @@ const navigationItems: NavItem[] = [
     icon: Timer, 
     label: 'Timer',
     subtitle: 'FOCUS NOW'
-  },
-  { 
-    state: 'analytics', 
-    icon: BarChart3, 
-    label: 'Dashboard',
-    subtitle: 'YOUR STATS'
   },
   { 
     state: 'insights', 

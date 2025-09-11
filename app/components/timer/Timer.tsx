@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { TimerDisplay } from './TimerDisplay'
 import { TimerControls } from './TimerControls'
 import { SessionProgress } from './SessionProgress'
-import { AnalyticsDashboard } from '@/components/ui/PremiumCharts'
 import { useTimer } from '@/hooks/useTimer'
 import { useUserStore } from '@/stores/userStore'
 import { useTimerStore } from '@/stores/timerStore'
@@ -158,16 +157,11 @@ export default function Timer() {
         {/* Left Panel: Recent Sessions + Analytics */}
         <div className="col-span-12 lg:col-span-4 xl:col-span-3 order-2 lg:order-1 h-full">
           <div className="h-full space-y-4 overflow-y-auto">
-            {/* Recent Sessions - Top Priority */}
-            <div className="h-auto">
-              <AppleLiquidCard hover={false} padding="md" className="bg-white/90 dark:bg-gray-900/90 border border-white/60 dark:border-gray-700/60 shadow-xl backdrop-blur-xl">
+            {/* Recent Sessions - Full Height */}
+            <div className="flex-1">
+              <AppleLiquidCard hover={false} padding="md" className="bg-white/90 dark:bg-gray-900/90 border border-white/60 dark:border-gray-700/60 shadow-xl backdrop-blur-xl h-full">
                 <SessionProgress />
               </AppleLiquidCard>
-            </div>
-            
-            {/* Analytics Charts Below */}
-            <div className="flex-1 min-h-[300px]">
-              <AnalyticsDashboard className="h-full" showStats={false} />
             </div>
           </div>
         </div>
