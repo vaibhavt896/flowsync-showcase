@@ -168,12 +168,12 @@ export default function Timer() {
 
         {/* Center Timer Section - Mobile Order: First */}
         <div className="lg:col-span-4 xl:col-span-6 order-1 lg:order-2 h-full flex flex-col">
-          <div className="flex-1 flex flex-col items-center justify-start space-y-2 sm:space-y-6 pt-1 sm:pt-4 pb-2 sm:pb-4">
+          <div className="flex-1 flex flex-col items-center justify-center lg:justify-start space-y-2 sm:space-y-6 lg:space-y-3 xl:space-y-2 pt-1 sm:pt-4 lg:pt-2 pb-2 sm:pb-4 lg:pb-2">
             {/* Main Timer Display - Mobile Responsive - Minimal padding for mobile */}
             <div className="flex items-center justify-center px-0 sm:px-4">
-              <div className="relative">
-                {/* Beautiful Poppy Circular Timer - Mobile Optimized */}
-                <div className="w-[320px] h-[320px] sm:w-[360px] sm:h-[360px] md:w-[390px] md:h-[390px] lg:w-[420px] lg:h-[420px] rounded-full relative">
+              <div className="relative -mt-2 lg:-mt-8 xl:-mt-12">
+                {/* Beautiful Poppy Circular Timer - Mobile Optimized, Desktop Fitted */}
+                <div className="w-[320px] h-[320px] sm:w-[360px] sm:h-[360px] md:w-[390px] md:h-[390px] lg:w-[360px] lg:h-[360px] xl:w-[380px] xl:h-[380px] rounded-full relative">
                   {/* Outer Glow Ring */}
                   <div className="absolute inset-0 rounded-full bg-gradient-to-r from-orange-500/30 via-golden-500/20 to-pink-500/30 blur-lg animate-pulse"></div>
                   
@@ -271,8 +271,8 @@ export default function Timer() {
               </motion.div>
             </div>
 
-            {/* Controls Section - Mobile Optimized - Moved slightly up */}
-            <div className="w-full max-w-sm sm:max-w-md lg:max-w-2xl mt-2 sm:mt-4 lg:mt-6 px-1 sm:px-4">
+            {/* Controls Section - Mobile Optimized, Desktop Compressed */}
+            <div className="w-full max-w-sm sm:max-w-md lg:max-w-2xl mt-2 sm:mt-4 lg:-mt-2 xl:-mt-4 px-1 sm:px-4">
               {/* Mobile: Simple background, Desktop: AppleLiquidCard */}
               <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-2xl sm:rounded-3xl p-3 sm:p-6 lg:hidden">
                 <TimerControls />

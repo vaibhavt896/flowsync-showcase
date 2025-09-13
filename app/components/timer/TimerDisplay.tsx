@@ -113,18 +113,6 @@ export function TimerDisplay({
           />
         )}
 
-        {/* Minimal Professional Ring */}
-        <motion.div
-          className="absolute inset-0 rounded-full border"
-          style={{
-            borderColor: currentColors.primary,
-            borderWidth: '1px',
-            opacity: isHovered ? 0.3 : 0.1
-          }}
-          transition={{
-            opacity: { duration: 0.3, ease: 'easeInOut' }
-          }}
-        />
 
         {/* Clean Circular Progress - Mobile Optimized */}
         <div className="relative">
