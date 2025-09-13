@@ -84,14 +84,14 @@ export function TimerControls({ className }: TimerControlsProps) {
           </AppleLiquidButton>
         )}
 
-        <div className="flex flex-wrap items-center justify-center gap-3">
+        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
           {canPause && (
             <AppleLiquidButton
               onClick={pause}
               variant={inFlow ? "primary" : "secondary"}
               size="md"
               className={cn(
-                'font-medium transition-all duration-300',
+                'font-medium transition-all duration-300 touch-manipulation',
                 inFlow && 'shadow-lg shadow-yellow-400/20 text-yellow-100'
               )}
               icon={<Pause className={cn("w-5 h-5", inFlow && "text-yellow-200")} />}
@@ -105,7 +105,7 @@ export function TimerControls({ className }: TimerControlsProps) {
               onClick={resume}
               variant="primary"
               size="md"
-              className="font-bold text-white shadow-lg shadow-golden-500/20"
+              className="font-bold text-white shadow-lg shadow-golden-500/20 touch-manipulation"
               icon={<Play className="w-5 h-5 text-white" />}
             >
               Resume
@@ -117,7 +117,7 @@ export function TimerControls({ className }: TimerControlsProps) {
               onClick={stop}
               variant="secondary"
               size="md"
-              className="font-bold text-white hover:text-white hover:shadow-md hover:shadow-pink-500/20"
+              className="font-bold text-white hover:text-white hover:shadow-md hover:shadow-pink-500/20 touch-manipulation"
               icon={<Square className="w-5 h-5" />}
             >
               Stop
@@ -132,13 +132,13 @@ export function TimerControls({ className }: TimerControlsProps) {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.1, type: "spring", stiffness: 300, damping: 25 }}
-          className="flex flex-wrap items-center justify-center gap-3"
+          className="flex flex-wrap items-center justify-center gap-3 sm:gap-4"
         >
           <AppleLiquidButton
             onClick={skip}
             variant="secondary"
-            size="sm"
-            className="text-white font-bold hover:text-white hover:shadow-sm hover:shadow-golden-500/20"
+            size="md"
+            className="text-white font-bold hover:text-white hover:shadow-sm hover:shadow-golden-500/20 touch-manipulation"
             icon={<SkipForward className="w-4 h-4" />}
           >
             Skip
@@ -147,8 +147,8 @@ export function TimerControls({ className }: TimerControlsProps) {
           <AppleLiquidButton
             onClick={reset}
             variant="secondary"
-            size="sm"
-            className="text-white font-bold hover:text-white hover:shadow-sm hover:shadow-golden-500/20"
+            size="md"
+            className="text-white font-bold hover:text-white hover:shadow-sm hover:shadow-golden-500/20 touch-manipulation"
             icon={<RotateCcw className="w-4 h-4" />}
           >
             Reset
@@ -162,13 +162,13 @@ export function TimerControls({ className }: TimerControlsProps) {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, type: "spring", stiffness: 200, damping: 20 }}
-          className="flex flex-wrap items-center justify-center gap-3"
+          className="flex flex-wrap items-center justify-center gap-3 sm:gap-4"
         >
           <AppleLiquidButton
             onClick={clearBreakSuggestion}
             variant="secondary"
-            size="sm"
-            className="text-white font-bold hover:text-white hover:shadow-md hover:shadow-gray-500/20"
+            size="md"
+            className="text-white font-bold hover:text-white hover:shadow-md hover:shadow-gray-500/20 touch-manipulation"
             icon={<SkipForward className="w-4 h-4" />}
           >
             Skip Break
@@ -177,8 +177,8 @@ export function TimerControls({ className }: TimerControlsProps) {
           <AppleLiquidButton
             onClick={() => startFocusSession()}
             variant="secondary"
-            size="sm"
-            className="text-white font-bold hover:text-white hover:shadow-md hover:shadow-orange-500/20"
+            size="md"
+            className="text-white font-bold hover:text-white hover:shadow-md hover:shadow-orange-500/20 touch-manipulation"
             icon={<Play className="w-4 h-4" />}
           >
             Back to Focus

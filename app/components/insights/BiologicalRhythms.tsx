@@ -213,30 +213,35 @@ export function BiologicalRhythms() {
         </h3>
         
         {insights && (
-          <div className="space-y-3">
+          <div className="space-y-4 sm:space-y-3">
             {insights.energyForecast.map((forecast, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="flex items-center justify-between"
+                className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 p-3 sm:p-0 bg-gray-50 dark:bg-gray-800/30 sm:bg-transparent sm:dark:bg-transparent rounded-lg sm:rounded-none"
               >
-                <div className="flex items-center gap-3">
-                  <div className="text-sm font-mono text-gray-500 w-16">
+                <div className="flex items-center justify-between sm:justify-start sm:flex-1 sm:gap-3">
+                  <div className="text-sm font-mono font-bold sm:font-normal text-gray-700 dark:text-gray-300 sm:text-gray-500 sm:dark:text-gray-400 sm:w-16">
                     {forecast.hour}:00
                   </div>
-                  <div className="flex-1 w-48">
-                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                  <div className={`text-sm font-black sm:hidden ${getEnergyColor(forecast.energy)}`}>
+                    {Math.round(forecast.energy)}%
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 sm:flex-1">
+                  <div className="flex-1 sm:max-w-none">
+                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 sm:h-3">
                       <div
-                        className={`h-3 rounded-full transition-all duration-300 ${getEnergyBgColor(forecast.energy)}`}
+                        className={`h-4 sm:h-3 rounded-full transition-all duration-300 ${getEnergyBgColor(forecast.energy)}`}
                         style={{ width: `${forecast.energy}%` }}
                       />
                     </div>
                   </div>
-                </div>
-                <div className={`text-sm font-bold ${getEnergyColor(forecast.energy)}`}>
-                  {Math.round(forecast.energy)}%
+                  <div className={`text-sm font-bold hidden sm:block ${getEnergyColor(forecast.energy)} min-w-[3rem] text-right`}>
+                    {Math.round(forecast.energy)}%
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -394,43 +399,67 @@ export function BiologicalRhythms() {
         )}
       </div>
 
-      {/* Ultradian Rhythm Insights */}
-      <div className="card p-6">
-        <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200 mb-4 flex items-center gap-2">
-          <Clock className="w-5 h-5 text-amber-500" />
+      {/* Ultradian Rhythm Insights - Mobile Optimized */}
+      <div className="card p-4 sm:p-6">
+        <h3 className="text-xl sm:text-lg font-black sm:font-bold text-gray-800 dark:text-gray-200 mb-6 sm:mb-4 flex items-center gap-2">
+          <Clock className="w-6 h-6 sm:w-5 sm:h-5 text-amber-500" />
           90-Minute Ultradian Cycles
         </h3>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-3">
-            <h4 className="font-medium text-gray-700 dark:text-gray-300">Current Cycle Analysis</h4>
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600 dark:text-gray-400">Cycle Type</span>
-                <span className="text-sm font-medium">High-Energy Analytical</span>
+        {/* Mobile-First Stacked Layout */}
+        <div className="space-y-6 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-6">
+          {/* Current Cycle Analysis - Mobile Card */}
+          <div className="bg-amber-50 dark:bg-amber-900/10 rounded-xl p-4 space-y-4">
+            <h4 className="font-black sm:font-medium text-amber-800 dark:text-amber-200 flex items-center gap-2">
+              <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
+              Current Cycle Analysis
+            </h4>
+            
+            <div className="space-y-3 sm:space-y-2">
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-3 sm:p-0 sm:bg-transparent sm:dark:bg-transparent">
+                <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">Cycle Type</div>
+                <div className="text-base sm:text-sm font-bold sm:font-medium text-gray-900 dark:text-gray-100">High-Energy Analytical</div>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600 dark:text-gray-400">Peak Duration</span>
-                <span className="text-sm font-medium">20 minutes</span>
+              
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-3 sm:p-0 sm:bg-transparent sm:dark:bg-transparent">
+                <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">Peak Duration</div>
+                <div className="text-base sm:text-sm font-bold sm:font-medium text-gray-900 dark:text-gray-100">20 minutes</div>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600 dark:text-gray-400">Consistency</span>
-                <span className="text-sm font-medium">85%</span>
+              
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-3 sm:p-0 sm:bg-transparent sm:dark:bg-transparent">
+                <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">Consistency</div>
+                <div className="text-base sm:text-sm font-bold sm:font-medium text-gray-900 dark:text-gray-100">85%</div>
               </div>
             </div>
           </div>
           
-          <div className="space-y-3">
-            <h4 className="font-medium text-gray-700 dark:text-gray-300">Optimization Tips</h4>
-            <div className="space-y-2">
-              <div className="text-sm text-gray-600 dark:text-gray-400">
-                • Schedule complex tasks during 20-minute peaks
+          {/* Optimization Tips - Mobile Card */}
+          <div className="bg-blue-50 dark:bg-blue-900/10 rounded-xl p-4 space-y-4">
+            <h4 className="font-black sm:font-medium text-blue-800 dark:text-blue-200 flex items-center gap-2">
+              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+              Optimization Tips
+            </h4>
+            
+            <div className="space-y-3 sm:space-y-2">
+              <div className="flex items-start gap-3 bg-white dark:bg-gray-800 rounded-lg p-3 sm:p-0 sm:bg-transparent sm:dark:bg-transparent">
+                <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 sm:mt-1.5 flex-shrink-0"></div>
+                <div className="text-sm font-medium sm:font-normal text-gray-800 dark:text-gray-200 sm:text-gray-600 sm:dark:text-gray-400 leading-relaxed">
+                  Schedule complex tasks during 20-minute peaks
+                </div>
               </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">
-                • Use 15-minute troughs for recovery
+              
+              <div className="flex items-start gap-3 bg-white dark:bg-gray-800 rounded-lg p-3 sm:p-0 sm:bg-transparent sm:dark:bg-transparent">
+                <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 sm:mt-1.5 flex-shrink-0"></div>
+                <div className="text-sm font-medium sm:font-normal text-gray-800 dark:text-gray-200 sm:text-gray-600 sm:dark:text-gray-400 leading-relaxed">
+                  Use 15-minute troughs for recovery
+                </div>
               </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">
-                • Align breaks with natural dips
+              
+              <div className="flex items-start gap-3 bg-white dark:bg-gray-800 rounded-lg p-3 sm:p-0 sm:bg-transparent sm:dark:bg-transparent">
+                <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 sm:mt-1.5 flex-shrink-0"></div>
+                <div className="text-sm font-medium sm:font-normal text-gray-800 dark:text-gray-200 sm:text-gray-600 sm:dark:text-gray-400 leading-relaxed">
+                  Align breaks with natural dips
+                </div>
               </div>
             </div>
           </div>

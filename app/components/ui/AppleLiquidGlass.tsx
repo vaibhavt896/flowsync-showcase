@@ -266,9 +266,9 @@ export function AppleLiquidButton({
   }
 
   const sizeClasses = {
-    sm: 'px-3 py-2 text-sm min-h-[36px] max-w-fit',
-    md: 'px-4 py-2.5 text-sm min-h-[40px] max-w-fit', 
-    lg: 'px-6 py-3 text-base min-h-[48px] max-w-fit'
+    sm: 'px-4 py-3 text-sm min-h-[44px] max-w-fit min-w-[44px]', // Touch standard 44px
+    md: 'px-5 py-3 text-sm min-h-[48px] max-w-fit min-w-[48px]', // Enhanced touch target
+    lg: 'px-6 py-4 text-base min-h-[52px] max-w-fit min-w-[52px]' // Large touch target
   }
 
   const variantStyles = {

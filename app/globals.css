@@ -783,6 +783,33 @@
       backdrop-filter: blur(30px) saturate(80%); /* Reduced from 40px */
       -webkit-backdrop-filter: blur(30px) saturate(80%);
     }
+
+    /* Mobile Typography Optimizations */
+    body {
+      font-size: 16px; /* Ensure minimum 16px for mobile */
+      line-height: 1.6; /* Improved readability */
+    }
+
+    h1 { font-size: clamp(1.75rem, 4vw, 2.25rem); } /* Responsive scaling */
+    h2 { font-size: clamp(1.5rem, 3.5vw, 1.875rem); }
+    h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); }
+    h4 { font-size: clamp(1.125rem, 2.5vw, 1.25rem); }
+
+    /* Improve touch interactions */
+    button, input, select, textarea {
+      min-height: 44px; /* Apple's minimum touch target */
+      touch-action: manipulation;
+    }
+
+    /* Improve readability */
+    .text-sm { font-size: 14px; } /* Ensure readable small text */
+    .text-xs { font-size: 12px; } /* Minimum readable size */
+
+    /* Better spacing */
+    .card { 
+      padding: 1rem; 
+      margin-bottom: 1rem;
+    }
   }
 
   @media (max-width: 480px) {
@@ -795,6 +822,27 @@
     .glass-navigation {
       backdrop-filter: blur(8px); /* Minimum viable blur */
       -webkit-backdrop-filter: blur(8px);
+    }
+
+    /* Extra small screen typography */
+    body { 
+      font-size: 16px; /* Never go below 16px */
+      padding: 0.75rem; /* Better edge spacing */
+    }
+
+    /* Improved small screen readability */
+    .text-xs { display: none; } /* Hide extra small text on very small screens */
+    
+    /* Better button spacing */
+    button {
+      min-height: 48px; /* Larger touch targets on small screens */
+      padding: 0.75rem 1rem;
+    }
+
+    /* Reduce motion for performance */
+    * {
+      animation-duration: 0.3s !important;
+      animation-delay: 0s !important;
     }
   }
 
@@ -978,6 +1026,65 @@
 
   .dark .text-contrast-light {
     color: var(--neutral-400);
+  }
+
+  /* Mobile-Specific Utility Classes */
+  .touch-manipulation {
+    touch-action: manipulation;
+  }
+
+  .mobile-safe-area {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .mobile-optimized {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .mobile-scroll {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  .mobile-font-adjust {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* Mobile-first responsive breakpoint helpers */
+  .mobile-only { display: block; }
+  .tablet-up { display: none; }
+  .desktop-up { display: none; }
+
+  @media (min-width: 640px) {
+    .mobile-only { display: none; }
+    .tablet-up { display: block; }
+  }
+
+  @media (min-width: 1024px) {
+    .tablet-up { display: none; }
+    .desktop-up { display: block; }
+  }
+
+  /* Mobile Performance Classes */
+  .mobile-gpu-accelerate {
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+
+  .mobile-performance-low {
+    animation: none !important;
+    transition: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
 }
 

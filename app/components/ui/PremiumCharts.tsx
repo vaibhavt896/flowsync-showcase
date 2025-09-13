@@ -77,16 +77,34 @@ function ProductivityLineChart({ data, animated = true }: { data: ChartDataPoint
 
   return (
     <ResponsiveContainer width="100%" height={300}>
-      <LineChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+      <LineChart 
+        data={data} 
+        margin={{ 
+          top: 20, 
+          right: window?.innerWidth < 640 ? 10 : 30, 
+          left: window?.innerWidth < 640 ? 10 : 20, 
+          bottom: 5 
+        }}
+      >
         <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
         <XAxis 
           dataKey="name" 
-          tick={{ fill: axisTextColor, fontSize: 12, fontWeight: 600 }}
+          tick={{ 
+            fill: axisTextColor, 
+            fontSize: window?.innerWidth < 640 ? 10 : 12, 
+            fontWeight: 600 
+          }}
           axisLine={{ stroke: axisLineColor }}
+          interval={window?.innerWidth < 640 ? 1 : 0}
         />
         <YAxis 
-          tick={{ fill: axisTextColor, fontSize: 12, fontWeight: 600 }}
+          tick={{ 
+            fill: axisTextColor, 
+            fontSize: window?.innerWidth < 640 ? 10 : 12, 
+            fontWeight: 600 
+          }}
           axisLine={{ stroke: axisLineColor }}
+          width={window?.innerWidth < 640 ? 35 : 60}
         />
         <Tooltip
           contentStyle={{
@@ -95,7 +113,8 @@ function ProductivityLineChart({ data, animated = true }: { data: ChartDataPoint
             borderRadius: '8px',
             color: tooltipText,
             backdropFilter: 'blur(10px)',
-            fontWeight: 600
+            fontWeight: 600,
+            fontSize: window?.innerWidth < 640 ? '12px' : '14px'
           }}
           labelStyle={{ color: tooltipText }}
           itemStyle={{ color: tooltipText }}
@@ -104,16 +123,24 @@ function ProductivityLineChart({ data, animated = true }: { data: ChartDataPoint
           type="monotone" 
           dataKey="productivity" 
           stroke={PRODUCTIVITY_COLORS.high}
-          strokeWidth={3}
-          dot={{ fill: PRODUCTIVITY_COLORS.high, strokeWidth: 2, r: 6 }}
+          strokeWidth={window?.innerWidth < 640 ? 2 : 3}
+          dot={{ 
+            fill: PRODUCTIVITY_COLORS.high, 
+            strokeWidth: 2, 
+            r: window?.innerWidth < 640 ? 4 : 6 
+          }}
           animationDuration={animated ? 2000 : 0}
         />
         <Line 
           type="monotone" 
           dataKey="focus" 
           stroke={PRODUCTIVITY_COLORS.medium}
-          strokeWidth={2}
-          dot={{ fill: PRODUCTIVITY_COLORS.medium, strokeWidth: 2, r: 4 }}
+          strokeWidth={window?.innerWidth < 640 ? 1.5 : 2}
+          dot={{ 
+            fill: PRODUCTIVITY_COLORS.medium, 
+            strokeWidth: 2, 
+            r: window?.innerWidth < 640 ? 3 : 4 
+          }}
           animationDuration={animated ? 2500 : 0}
         />
       </LineChart>
@@ -298,9 +325,9 @@ export function AnalyticsDashboard({ className = '', showStats = true }: { class
 
   return (
     <div className={`space-y-6 ${className}`}>
-      {/* Stats Grid - Only show if showStats is true */}
+      {/* Stats Grid - Mobile Optimized */}
       {showStats && (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {stats.map((stat, index) => {
             const Icon = stat.icon
             return (
@@ -314,11 +341,11 @@ export function AnalyticsDashboard({ className = '', showStats = true }: { class
                   material="regular"
                   blur="heavy"
                   rounded="xl"
-                  className="p-4 text-center"
+                  className="p-3 sm:p-4 text-center"
                 >
-                  <Icon className={`w-6 h-6 ${stat.color} mx-auto mb-2`} />
-                  <div className="text-2xl font-black text-neutral-900 dark:text-neutral-100 mb-1">{stat.value}</div>
-                  <div className="text-xs text-neutral-800 dark:text-neutral-200 font-bold">{stat.name}</div>
+                  <Icon className={`w-5 h-5 sm:w-6 sm:h-6 ${stat.color} mx-auto mb-2`} />
+                  <div className="text-xl sm:text-2xl font-black text-neutral-900 dark:text-neutral-100 mb-1">{stat.value}</div>
+                  <div className="text-xs text-neutral-800 dark:text-neutral-200 font-bold leading-tight">{stat.name}</div>
                 </AppleLiquidGlass>
               </motion.div>
             )
@@ -326,14 +353,14 @@ export function AnalyticsDashboard({ className = '', showStats = true }: { class
         </div>
       )}
 
-      {/* Chart Controls */}
-      <div className="flex items-center justify-between">
-        <div className="flex gap-2">
+      {/* Chart Controls - Mobile Optimized */}
+      <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-0 sm:justify-between">
+        <div className="flex gap-2 flex-wrap justify-center sm:justify-start">
           {['line', 'nivo', 'radial'].map((type) => (
             <button
               key={type}
               onClick={() => setChartType(type as any)}
-              className={`px-3 py-1 rounded-lg text-sm font-bold transition-all duration-200 ${
+              className={`px-4 py-3 rounded-lg text-sm font-bold transition-all duration-200 touch-manipulation min-h-[44px] ${
                 chartType === type
                   ? 'bg-orange-500 text-white'
                   : 'bg-white/80 dark:bg-gray-800/80 text-neutral-900 dark:text-neutral-100 hover:bg-orange-100 dark:hover:bg-orange-900/30'
@@ -345,7 +372,7 @@ export function AnalyticsDashboard({ className = '', showStats = true }: { class
         </div>
         <button
           onClick={() => setIsAnimated(!isAnimated)}
-          className="px-3 py-1 rounded-lg text-sm font-bold bg-white/80 dark:bg-gray-800/80 text-neutral-900 dark:text-neutral-100 hover:bg-golden-100 dark:hover:bg-golden-900/30 transition-all duration-200"
+          className="px-4 py-3 rounded-lg text-sm font-bold bg-white/80 dark:bg-gray-800/80 text-neutral-900 dark:text-neutral-100 hover:bg-golden-100 dark:hover:bg-golden-900/30 transition-all duration-200 touch-manipulation min-h-[44px] w-full sm:w-auto"
         >
           {isAnimated ? 'Disable' : 'Enable'} Animation
         </button>
@@ -379,14 +406,23 @@ export function AnalyticsDashboard({ className = '', showStats = true }: { class
         material="regular"
         blur="heavy"
         rounded="xl"
-        className="p-4"
+        className="p-4 sm:p-6"
       >
-        <h4 className="text-lg font-black text-neutral-900 mb-2">Performance Insights</h4>
-        <div className="text-sm text-neutral-800 font-bold space-y-1">
-          <div>• {averageProductivity > 80 ? 'Excellent' : averageProductivity > 60 ? 'Good' : 'Needs improvement'} productivity trend</div>
-          <div>• Peak performance during {data.reduce((peak, current) => 
-            current.productivity > peak.productivity ? current : peak, data[0] || {})?.name || 'N/A'}</div>
-          <div>• {data.filter(d => d.productivity > 70).length}/{data.length} high-performance sessions</div>
+        <h4 className="text-xl sm:text-lg font-black text-neutral-900 dark:text-neutral-100 mb-3 sm:mb-2">Performance Insights</h4>
+        <div className="text-base sm:text-sm text-neutral-800 dark:text-neutral-200 font-bold space-y-2 sm:space-y-1">
+          <div className="flex items-start gap-2">
+            <div className="w-1 h-1 bg-orange-500 rounded-full mt-2 sm:mt-1.5 flex-shrink-0"></div>
+            <div>{averageProductivity > 80 ? 'Excellent' : averageProductivity > 60 ? 'Good' : 'Needs improvement'} productivity trend</div>
+          </div>
+          <div className="flex items-start gap-2">
+            <div className="w-1 h-1 bg-blue-500 rounded-full mt-2 sm:mt-1.5 flex-shrink-0"></div>
+            <div>Peak performance during {data.reduce((peak, current) => 
+              current.productivity > peak.productivity ? current : peak, data[0] || {})?.name || 'N/A'}</div>
+          </div>
+          <div className="flex items-start gap-2">
+            <div className="w-1 h-1 bg-green-500 rounded-full mt-2 sm:mt-1.5 flex-shrink-0"></div>
+            <div>{data.filter(d => d.productivity > 70).length}/{data.length} high-performance sessions</div>
+          </div>
         </div>
       </AppleLiquidGlass>
     </div>

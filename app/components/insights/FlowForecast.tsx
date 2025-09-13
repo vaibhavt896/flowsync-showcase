@@ -121,25 +121,25 @@ export function FlowForecast() {
               </div>
             </div>
 
-            {/* Neural Signals */}
-            <div className="grid grid-cols-3 gap-4">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-blue-500">
+            {/* Neural Signals - Mobile Optimized */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+              <div className="text-center p-3 sm:p-2 bg-blue-50 dark:bg-blue-900/10 rounded-lg sm:bg-transparent sm:dark:bg-transparent">
+                <div className="text-3xl sm:text-2xl font-black sm:font-bold text-blue-500 mb-1">
                   {Math.round(currentPrediction.neuralSignals.typingRhythm)}%
                 </div>
-                <div className="text-xs text-gray-500 dark:text-gray-400">Typing Rhythm</div>
+                <div className="text-sm sm:text-xs font-bold sm:font-normal text-gray-700 dark:text-gray-300 sm:text-gray-500 sm:dark:text-gray-400">Typing Rhythm</div>
               </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-green-500">
+              <div className="text-center p-3 sm:p-2 bg-green-50 dark:bg-green-900/10 rounded-lg sm:bg-transparent sm:dark:bg-transparent">
+                <div className="text-3xl sm:text-2xl font-black sm:font-bold text-green-500 mb-1">
                   {Math.round(currentPrediction.neuralSignals.cursorSmoothness)}%
                 </div>
-                <div className="text-xs text-gray-500 dark:text-gray-400">Cursor Flow</div>
+                <div className="text-sm sm:text-xs font-bold sm:font-normal text-gray-700 dark:text-gray-300 sm:text-gray-500 sm:dark:text-gray-400">Cursor Flow</div>
               </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-purple-500">
+              <div className="text-center p-3 sm:p-2 bg-purple-50 dark:bg-purple-900/10 rounded-lg sm:bg-transparent sm:dark:bg-transparent">
+                <div className="text-3xl sm:text-2xl font-black sm:font-bold text-purple-500 mb-1">
                   {Math.round(currentPrediction.neuralSignals.cognitiveStability)}%
                 </div>
-                <div className="text-xs text-gray-500 dark:text-gray-400">Mental Stability</div>
+                <div className="text-sm sm:text-xs font-bold sm:font-normal text-gray-700 dark:text-gray-300 sm:text-gray-500 sm:dark:text-gray-400">Mental Stability</div>
               </div>
             </div>
 

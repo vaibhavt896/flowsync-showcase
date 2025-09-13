@@ -126,13 +126,13 @@ export function TimerDisplay({
           }}
         />
 
-        {/* Clean Circular Progress */}
+        {/* Clean Circular Progress - Mobile Optimized */}
         <div className="relative">
           <svg 
             width="100%" 
             height="100%" 
             viewBox="0 0 480 480" 
-            className="transform -rotate-90 w-[220px] h-[220px] sm:w-[240px] sm:h-[240px] md:w-[260px] md:h-[260px] lg:w-[280px] lg:h-[280px] xl:w-[300px] xl:h-[300px]"
+            className="transform -rotate-90 w-[180px] h-[180px] sm:w-[220px] sm:h-[220px] md:w-[260px] md:h-[260px] lg:w-[280px] lg:h-[280px] xl:w-[300px] xl:h-[300px]"
           >
             {/* Background Circle */}
             <circle
@@ -182,7 +182,7 @@ export function TimerDisplay({
 
           {/* Center Content */}
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            {/* Enhanced Time Display */}
+            {/* Enhanced Time Display - Mobile Optimized */}
             <motion.div
               key={timeRemaining}
               initial={{ scale: 1.05, opacity: 0.8 }}
@@ -192,37 +192,80 @@ export function TimerDisplay({
                 filter: `brightness(1)`
               }}
               className={cn(
-                "text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl mb-3 leading-none text-neutral-900",
-                currentColors.theme === 'intense' 
-                  ? "font-mono font-black tracking-tighter" 
-                  : "font-mono font-bold tracking-normal"
+                "text-7xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl mb-3 sm:mb-3 leading-none text-neutral-900",
+                "px-2 text-center",
+                // Big and BOLD for mobile - fits within circle perfectly
+                "font-mono font-black tracking-tighter sm:tracking-normal"
               )}
               style={{
                 textShadow: currentColors.theme === 'intense'
-                  ? `0 4px 12px rgba(0, 0, 0, 0.4), 0 0 40px ${currentColors.glow}, 0 0 80px ${currentColors.glow}20`
-                  : `0 2px 20px ${currentColors.glow}, 0 0 60px ${currentColors.glow}40, 0 0 100px ${currentColors.glow}10`,
+                  ? `0 8px 20px rgba(0, 0, 0, 0.7), 0 0 60px ${currentColors.glow}, 0 0 120px ${currentColors.glow}40, 0 4px 0 rgba(0,0,0,0.3)`
+                  : `0 6px 30px ${currentColors.glow}, 0 0 80px ${currentColors.glow}60, 0 0 140px ${currentColors.glow}20, 0 3px 0 rgba(255,255,255,1), 0 6px 0 rgba(0,0,0,0.2)`,
                 fontFamily: currentColors.theme === 'intense' 
                   ? 'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace'
                   : 'ui-rounded, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif',
-                fontWeight: currentColors.theme === 'intense' ? '900' : '600',
-                letterSpacing: currentColors.theme === 'intense' ? '-0.05em' : '0.02em'
+                // Maximum boldness and weight
+                fontWeight: '900',
+                fontStretch: 'ultra-condensed',
+                letterSpacing: currentColors.theme === 'intense' ? '-0.1em' : '-0.04em',
+                WebkitTextStroke: '1px rgba(0,0,0,0.1)',
+                transform: 'translateY(-8px)'
               }}
             >
               {formatTime(timeRemaining)}
             </motion.div>
             
-            {/* Minimal Progress Indicator */}
+            {/* Minimal Progress Indicator - Mobile Optimized - FORCED HORIZONTAL LAYOUT */}
             <motion.div 
-              className="text-neutral-800 space-y-1 text-center mt-2"
+              className="text-neutral-800 mt-6 sm:mt-2 px-2"
               animate={{
                 opacity: 0.9
               }}
             >
-              <div className="text-sm font-bold">
-                {Math.round(progress)}% complete
+              {/* MOBILE: FORCED HORIZONTAL - Side by Side, DESKTOP: Vertical */}
+              <div className="block sm:hidden">
+                {/* MOBILE VERSION - FORCED HORIZONTAL */}
+                <div className="flex flex-row items-center justify-center gap-4">
+                  <div className="flex flex-row items-center gap-1">
+                    <div className="text-xl font-black">
+                      {Math.round(progress)}%
+                    </div>
+                    <div className="text-xs font-bold text-neutral-600">
+                      complete
+                    </div>
+                  </div>
+                  
+                  <div className="w-px h-6 bg-neutral-300"></div>
+                  
+                  <div className="flex flex-row items-center gap-1">
+                    <div className="text-xl font-mono font-black text-neutral-700">
+                      {formatTime(totalTime - timeRemaining)}
+                    </div>
+                    <div className="text-xs font-bold text-neutral-600">
+                      elapsed
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="text-xs font-mono font-semibold text-neutral-700">
-                {formatTime(totalTime - timeRemaining)} elapsed
+
+              {/* DESKTOP VERSION - VERTICAL */}
+              <div className="hidden sm:flex flex-col items-center justify-center gap-1 text-center">
+                <div className="flex flex-row items-center gap-0">
+                  <div className="text-base font-bold">
+                    {Math.round(progress)}%
+                  </div>
+                  <div className="text-sm font-bold text-neutral-600 ml-1">
+                    complete
+                  </div>
+                </div>
+                <div className="flex flex-row items-center gap-0">
+                  <div className="text-xs font-mono font-semibold text-neutral-700">
+                    {formatTime(totalTime - timeRemaining)}
+                  </div>
+                  <div className="text-xs font-bold text-neutral-600 ml-1">
+                    elapsed
+                  </div>
+                </div>
               </div>
             </motion.div>
 
